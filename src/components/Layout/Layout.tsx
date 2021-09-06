@@ -34,24 +34,25 @@ const Layout: React.FC<LayoutProps> = ({
     () => [
       {
         label: `Kittens`,
-        link: `/kittens`,
+        link: `/cats`,
       },
       {
         label: `Adults`,
-        subLinks: [
-          {
-            label: `Queens`,
-            link: `/queens`,
-          },
-          {
-            label: `Studs`,
-            link: `/studs`,
-          },
-          {
-            label: `Champions`,
-            link: `/champions`,
-          },
-        ],
+        link: `/cats`,
+        // subLinks: [
+        //   {
+        //     label: `Queens`,
+        //     link: `/queens`,
+        //   },
+        //   {
+        //     label: `Studs`,
+        //     link: `/studs`,
+        //   },
+        //   {
+        //     label: `Champions`,
+        //     link: `/champions`,
+        //   },
+        // ],
       },
       {
         label: `Testimonials`,
