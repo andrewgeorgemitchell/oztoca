@@ -34,22 +34,22 @@ const Layout: React.FC<LayoutProps> = ({
     () => [
       {
         label: `Kittens`,
-        link: `/kittens`,
+        link: `/cats?category=kittens`,
       },
       {
         label: `Adults`,
         subLinks: [
           {
             label: `Queens`,
-            link: `/queens`,
+            link: `/cats?category=queens`,
           },
           {
             label: `Studs`,
-            link: `/studs`,
+            link: `/cats?category=studs`,
           },
           {
             label: `Champions`,
-            link: `/champions`,
+            link: `/cats?category=champions`,
           },
         ],
       },
@@ -59,12 +59,7 @@ const Layout: React.FC<LayoutProps> = ({
       },
       {
         label: `Tips`,
-        subLinks: [
-          {
-            label: `New Kitten Tips`,
-            link: `/new-kitten-tips`,
-          },
-        ],
+        link: `/tips`,
       },
       {
         label: `Gallery`,
@@ -81,7 +76,7 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <div className={classes.root}>
       <Head>
-        <title>{title}</title>
+        <title>Oztoca - {title}</title>
         <meta name="description" content={description} />
         {tags?.map(({ name, content }) => (
           <meta key={name} name={name} content={content} />

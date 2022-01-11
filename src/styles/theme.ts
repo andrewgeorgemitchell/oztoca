@@ -1,4 +1,5 @@
 import { createTheme, Theme } from '@material-ui/core';
+import { blue, pink } from '@material-ui/core/colors';
 
 type JssStyles = Record<string, any>;
 
@@ -20,16 +21,16 @@ const quipCustomThemeOptions: DefaultThemeOptions = {
         paddingRight: `5%`,
       },
       [theme.breakpoints.up(`md`)]: {
-        paddingLeft: `7%`,
-        paddingRight: `7%`,
-      },
-      [theme.breakpoints.up(`lg`)]: {
         paddingLeft: `10%`,
         paddingRight: `10%`,
       },
-      [theme.breakpoints.up(`xl`)]: {
+      [theme.breakpoints.up(`lg`)]: {
         paddingLeft: `15%`,
         paddingRight: `15%`,
+      },
+      [theme.breakpoints.up(`xl`)]: {
+        paddingLeft: `17%`,
+        paddingRight: `17%`,
       },
     }),
   },
@@ -37,6 +38,10 @@ const quipCustomThemeOptions: DefaultThemeOptions = {
 
 export const DefaultTheme: Theme = createTheme(
   {
+    palette: {
+      primary: blue,
+      secondary: pink,
+    },
     overrides: {
       MuiButton: {
         root: {
