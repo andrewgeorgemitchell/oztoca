@@ -1,28 +1,30 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
 import React from 'react';
-import Link, { NextLinkComposed } from '~/components/Link/Link';
+import Link from '~/components/Link/Link';
 import { CustomTheme } from '~/styles/theme';
+import { NavLink } from './HeaderLink.type';
+// eslint-disable-next-line import/no-cycle
+import HeaderLink from './HeaderLink/HeaderLink';
 
 const useStyles = makeStyles<CustomTheme>((theme) => ({
   root: {
     height: 100,
+    width: `100%`,
     position: `sticky`,
     top: `0px`,
+    backgroundColor: `#fff`,
+    borderBottom: `1px solid #e0e0e0`,
+    zIndex: 1000,
   },
   container: {
     height: 100,
     margin: 0,
     ...theme.mixins.containerStyles(theme),
+    width: `100%`,
   },
 }));
-
-export type NavLink = {
-  label: string;
-  link?: string;
-  subLinks?: NavLink[];
-};
 
 type HeaderProps = {
   links: NavLink[];
@@ -42,7 +44,13 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Grid item container>
+        <Grid
+          item
+          container
+          style={{
+            margin: 0,
+          }}
+        >
           <Link
             href={{
               pathname: `/`,
@@ -73,31 +81,19 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           spacing={1}
           justifyContent="flex-end"
           alignItems="center"
+          wrap="nowrap"
         >
-          <Grid item>
-            {links.map(({ label, link }) => (
-              <Button
-                key={link}
-                component={NextLinkComposed}
-                to={{
-                  ...(link?.includes(`?`)
-                    ? {
-                        pathname: link.split(`?`)[0],
-                        query: {
-                          ...Object.fromEntries(
-                            new URLSearchParams(link.split(`?`)[1]),
-                          ),
-                        },
-                      }
-                    : {
-                        pathname: link,
-                      }),
+          {links.map(({ label, link, subLinks }) => (
+            <Grid item key={`${link}-headerLink`}>
+              <HeaderLink
+                link={{
+                  label,
+                  link,
+                  subLinks,
                 }}
-              >
-                {label}
-              </Button>
-            ))}
-          </Grid>
+              />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </nav>

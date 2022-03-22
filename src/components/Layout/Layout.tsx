@@ -9,7 +9,8 @@ const useStyles = makeStyles(() => ({
     display: `flex`,
     flexDirection: `column`,
     minHeight: `100vh`,
-    overflowX: `hidden`,
+    position: `relative`,
+    backgroundColor: `#fff`,
   },
 }));
 
@@ -84,7 +85,14 @@ const Layout: React.FC<LayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header links={NavLinks} />
-      <main style={{ width: `100%`, flexGrow: 2, background: `#fff` }}>
+      <main
+        style={{
+          width: `100%`,
+          flexGrow: 2,
+          background: `#fff`,
+          overflow: `hidden`,
+        }}
+      >
         {children}
       </main>
       <Footer links={NavLinks} />

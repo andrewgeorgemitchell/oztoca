@@ -14,6 +14,7 @@ export type CustomTheme = Theme & DefaultThemeOptions;
 const quipCustomThemeOptions: DefaultThemeOptions = {
   mixins: {
     containerStyles: (theme: Theme): JssStyles => ({
+      width: `100%`,
       paddingLeft: `2%`,
       paddingRight: `2%`,
       [theme.breakpoints.up(`sm`)]: {

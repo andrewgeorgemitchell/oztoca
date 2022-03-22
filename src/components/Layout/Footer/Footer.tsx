@@ -11,6 +11,7 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     width: `100%`,
+    borderTop: `1px solid #e0e0e0`,
   },
 }));
 
