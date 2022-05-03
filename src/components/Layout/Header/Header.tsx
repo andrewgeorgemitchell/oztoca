@@ -14,7 +14,6 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     width: `100%`,
     position: `sticky`,
     top: `0px`,
-    backgroundColor: `#fff`,
     borderBottom: `1px solid #e0e0e0`,
     zIndex: 1000,
   },
@@ -34,7 +33,12 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
   const classes = useStyles();
 
   return (
-    <nav className={classes.root}>
+    <nav
+      className={classes.root}
+      style={{
+        backgroundColor: `#bdb9b9`,
+      }}
+    >
       <Grid
         className={classes.container}
         container

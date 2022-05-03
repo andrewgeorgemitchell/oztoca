@@ -89,7 +89,7 @@ const Layout: React.FC<LayoutProps> = ({
         style={{
           width: `100%`,
           flexGrow: 2,
-          background: `#fff`,
+          background: `#efebeb`,
           overflow: `hidden`,
         }}
       >
