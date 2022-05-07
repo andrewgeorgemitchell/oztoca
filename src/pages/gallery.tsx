@@ -50,7 +50,7 @@ const Gallery: React.FC<GalleryProps> = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-
+  const pan = 'hello'
   const handleClick = (e: any) => {
     setOpen(!open);
 
