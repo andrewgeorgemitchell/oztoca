@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Link from '~/components/Link/Link';
 import { CustomTheme } from '~/styles/theme';
-import { NavLink } from '../Header/Header';
+import { NavLink } from '../Header/HeaderLink.type';
 
 const useStyles = makeStyles<CustomTheme>((theme) => ({
   root: {
