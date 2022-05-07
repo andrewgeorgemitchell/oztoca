@@ -1,21 +1,11 @@
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { CustomTheme } from '~/styles/theme';
 
-const useStyles = makeStyles<CustomTheme>((theme) => ({
-  root: {
-    ...theme.mixins.containerStyles(theme),
-  },
-}));
-
-type ContactFormProps = {};
-
-const ContactForm: React.FC<ContactFormProps> = () => {
-  const classes = useStyles();
+const ContactForm: React.FC = () => {
   const defaultValues = {
     name: ``,
     email: ``,
@@ -35,13 +25,13 @@ const ContactForm: React.FC<ContactFormProps> = () => {
         phone: formValues.phone,
         message: formValues.message,
       })
-      .then((res) => {
+      .then(() => {
         setLoading(false);
         setFormValues(defaultValues);
         setStatus(`success`);
         setOpen(true);
       })
-      .catch((err) => {
+      .catch(() => {
         setStatus(`error`);
         setOpen(true);
         setLoading(false);
@@ -55,11 +45,9 @@ const ContactForm: React.FC<ContactFormProps> = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    // TODO: send form data to backend
-    // TODO: show success message
-    // TODO: handle error message
     sendEmail();
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <Snackbar

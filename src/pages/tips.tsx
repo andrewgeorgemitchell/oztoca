@@ -66,8 +66,8 @@ const Tips: React.FC<TipsProps> = ({ tips }) => {
           </Typography>
         </Card>
         <Grid container spacing={2} style={{ padding: 10 }} item xs={12}>
-          {tipData.map((tip: any, index) => (
-            <Grid item xs={12} md={6} lg={4}>
+          {tipData.map((tip: any) => (
+            <Grid key={tip.title} item xs={12} md={6} lg={4}>
               <Card className={classes.card}>
                 <Typography
                   variant="h4"
@@ -75,9 +75,10 @@ const Tips: React.FC<TipsProps> = ({ tips }) => {
                 >
                   {tip.title}
                 </Typography>
-                {tip.description.map((description: string, index: number) => (
+                {tip.description.map((description: string) => (
                   <>
                     <Typography
+                      key={description}
                       variant="body2"
                       style={{ paddingBottom: 16, textAlign: `center` }}
                     >

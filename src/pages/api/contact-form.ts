@@ -1,5 +1,7 @@
 import sgMail from '@sendgrid/mail';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
