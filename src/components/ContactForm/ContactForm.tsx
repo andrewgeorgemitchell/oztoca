@@ -1,5 +1,8 @@
 import { Button, Grid, makeStyles } from '@material-ui/core';
-import { FormControl, TextField } from '@mui/material';
+import { Alert, Snackbar, TextField, } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
+import axios from 'axios';
 import React, { useState } from 'react';
 import { CustomTheme } from '~/styles/theme';
 
@@ -17,17 +20,34 @@ const ContactForm: React.FC<ContactFormProps> = () => {
     name: '',
     email: '',
     phone: '',
-    subject: '',
     message: '',
   };
   const [formValues, setFormValues] = useState(defaultValues);
-  const [formErrors, setFormErrors] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState('success');
+  const sendEmail = () => {
+    setLoading(true);
+    axios
+      .post('/api/contact-form', {
+        name: formValues.name,
+        email: formValues.email,
+        phone: formValues.phone,
+        message: formValues.message,
+      })
+      .then((res) => {
+        setLoading(false);
+        setFormValues(defaultValues);
+        setStatus('success');
+        setOpen(true);
+      })
+      .catch((err) => {
+        setStatus('error');
+        setOpen(true);
+        setLoading(false);
+      });
+  };
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -38,42 +58,55 @@ const ContactForm: React.FC<ContactFormProps> = () => {
     // TODO: send form data to backend
     // TODO: show success message
     // TODO: handle error message
-
-    console.log(formValues);
-    setFormValues(defaultValues);
+    sendEmail();
   };
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <FormControl fullWidth={true}>
+    <form onSubmit={handleSubmit}>
+      <Snackbar
+        open={open}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        autoHideDuration={4000}
+        onClose={() => setOpen(false)}
+      >
+        {status === 'success' ? (
+        <Alert severity="success">
+          Your message has been sent successfully.
+        </Alert>
+        ) : (
+        <Alert severity="error">
+          There was an error sending your message. Please try again.
+        </Alert>  )
+        }
+      </Snackbar>
+
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
           <TextField
+            fullWidth
             id="name-input"
             name="name"
             label="Name"
             type="text"
             value={formValues.name}
             onChange={handleChange}
-            error={formValues.name === ''}
-            helperText={'Name is required'}
             required
-
+            disabled={loading}
           />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth={true}>
+        </Grid>
+        <Grid item xs={12} md={6}>
           <TextField
+            fullWidth
             id="phone-input"
             name="phone"
             label="phone"
             type="number"
             value={formValues.phone}
             onChange={handleChange}
+            required
+            disabled={loading}
           />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth={true}>
+        </Grid>
+        <Grid item xs={12}>
           <TextField
             id="email-input"
             name="email"
@@ -81,40 +114,41 @@ const ContactForm: React.FC<ContactFormProps> = () => {
             type="text"
             value={formValues.email}
             onChange={handleChange}
+            required
+            fullWidth
+            disabled={loading}
           />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth={true}>
+        </Grid>
+        <Grid item xs={12}>
           <TextField
-            id="subject-input"
-            name="subject"
-            label="Subject"
-            type="text"
-            value={formValues.subject}
-            onChange={handleChange}
-          />
-        </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-        <FormControl fullWidth={true}>
-          <TextField
+            fullWidth
             id="message-input"
             name="message"
             label="Message"
             type="text"
+            multiline
+            rows={4}
             value={formValues.message}
             onChange={handleChange}
-            
+            required
+            disabled={loading}
           />
-        </FormControl>
+        </Grid>
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
+          <LoadingButton
+            variant="contained"
+            color="secondary"
+            type='submit'
+            disabled={loading}
+            loading={loading}
+            startIcon={<SendIcon />}
+            loadingPosition="start"
+          >
+            Send Message
+          </LoadingButton>
+        </Grid>
       </Grid>
-      <Grid item xs={12} style={{ textAlign: 'center' }}>
-        <Button variant="contained" color="secondary" onClick={handleSubmit}>
-          Send
-        </Button>
-      </Grid>
-    </Grid>
+    </form>
   );
 };
 
