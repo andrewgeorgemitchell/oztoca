@@ -29,8 +29,8 @@ export default async function handler(
           </strong>`,
     };
     const res = await sgMail.send(msg);
-    response.status(200).json({ message: 'ok' });
+    response.status(200).json({ message: `ok` });
   } catch (error) {
-    response.status(500).json({ error: error });
+    response.status(500).json({ error });
   }
 }

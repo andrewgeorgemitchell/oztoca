@@ -1,7 +1,7 @@
-import { Button, Grid, makeStyles } from '@material-ui/core';
-import { Alert, Snackbar, TextField, } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Grid, makeStyles } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { CustomTheme } from '~/styles/theme';
@@ -17,19 +17,19 @@ type ContactFormProps = {};
 const ContactForm: React.FC<ContactFormProps> = () => {
   const classes = useStyles();
   const defaultValues = {
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
+    name: ``,
+    email: ``,
+    phone: ``,
+    message: ``,
   };
   const [formValues, setFormValues] = useState(defaultValues);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState('success');
+  const [status, setStatus] = useState(`success`);
   const sendEmail = () => {
     setLoading(true);
     axios
-      .post('/api/contact-form', {
+      .post(`/api/contact-form`, {
         name: formValues.name,
         email: formValues.email,
         phone: formValues.phone,
@@ -38,11 +38,11 @@ const ContactForm: React.FC<ContactFormProps> = () => {
       .then((res) => {
         setLoading(false);
         setFormValues(defaultValues);
-        setStatus('success');
+        setStatus(`success`);
         setOpen(true);
       })
       .catch((err) => {
-        setStatus('error');
+        setStatus(`error`);
         setOpen(true);
         setLoading(false);
       });
@@ -64,19 +64,19 @@ const ContactForm: React.FC<ContactFormProps> = () => {
     <form onSubmit={handleSubmit}>
       <Snackbar
         open={open}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: `top`, horizontal: `center` }}
         autoHideDuration={4000}
         onClose={() => setOpen(false)}
       >
-        {status === 'success' ? (
-        <Alert severity="success">
-          Your message has been sent successfully.
-        </Alert>
+        {status === `success` ? (
+          <Alert severity="success">
+            Your message has been sent successfully.
+          </Alert>
         ) : (
-        <Alert severity="error">
-          There was an error sending your message. Please try again.
-        </Alert>  )
-        }
+          <Alert severity="error">
+            There was an error sending your message. Please try again.
+          </Alert>
+        )}
       </Snackbar>
 
       <Grid container spacing={2}>
@@ -134,11 +134,11 @@ const ContactForm: React.FC<ContactFormProps> = () => {
             disabled={loading}
           />
         </Grid>
-        <Grid item xs={12} style={{ textAlign: 'center' }}>
+        <Grid item xs={12} style={{ textAlign: `center` }}>
           <LoadingButton
             variant="contained"
             color="secondary"
-            type='submit'
+            type="submit"
             disabled={loading}
             loading={loading}
             startIcon={<SendIcon />}
