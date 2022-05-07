@@ -46,7 +46,7 @@ export async function getStaticProps() {
   };
 }
 
-const Tips: React.FC<TipsProps> = ({ tips }) => {
+const Tips: React.FC<TipsProps> = () => {
   const classes = useStyles();
 
   return (
