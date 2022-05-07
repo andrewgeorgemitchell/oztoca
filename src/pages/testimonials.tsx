@@ -16,11 +16,9 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
   },
 }));
 
-type TestimonialsProps = {};
-
 // TODO: add testimonials from backend
 
-const Testimonials: React.FC<TestimonialsProps> = () => {
+const Testimonials: React.FC = () => {
   const classes = useStyles();
   return (
     <Layout title="Testimonials" description="Testimonials">

@@ -18,8 +18,6 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
   },
 }));
 
-type GalleryProps = {};
-
 const images = [
   {
     title: `#1`,
@@ -47,7 +45,7 @@ const images = [
   },
 ];
 
-const Gallery: React.FC<GalleryProps> = () => {
+const Gallery: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -77,14 +75,14 @@ const Gallery: React.FC<GalleryProps> = () => {
           </Card>
         </Grid>
         <Grid container item xs={12} spacing={2}>
-          {images.map((image, index) => (
+          {images.map((image) => (
             <Grid
               style={{ cursor: `pointer` }}
               item
               xs={6}
               md={4}
               lg={4}
-              key={index}
+              key={image.src}
               onClick={(e) => handleClick(e)}
             >
               {open && (
