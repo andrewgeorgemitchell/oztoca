@@ -8,7 +8,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
-    "build": "sanity build"
+    "build": "sanity build",
+    "login": "sanity login",
+    "deploy": "sanity deploy"
   },
   "keywords": [
     "sanity"
@@ -25,5 +27,7 @@
     "react-dom": "^17.0",
     "styled-components": "^5.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@sanity/cli": "2.29.8"
+  }
 }
