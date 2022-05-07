@@ -1,7 +1,7 @@
 const GallerySchema = {
-  title: "Gallery",
-  name: "gallery",
-  type: "document",
+  title: 'Gallery',
+  name: 'gallery',
+  type: 'document',
   fields: [
     {
       title: 'Image',
@@ -9,17 +9,17 @@ const GallerySchema = {
       type: 'image',
     },
     {
-      title: "Title",
-      name: "title",
-      type: "string",
-      description: "The title of the picture",
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+      description: 'The title of the picture',
     },
     {
-      title: "Description",
-      name: "description",
-      type: "array",
-      of: [{ type: "block" }],
-      description: "The description of the picture",
+      title: 'Description',
+      name: 'description',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'The description of the picture',
     },
   ],
 };
