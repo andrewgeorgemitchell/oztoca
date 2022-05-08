@@ -25,6 +25,7 @@
     "@mui/icons-material": "5.2.5",
     "@mui/lab": "5.0.0-alpha.80",
     "@mui/material": "5.2.8",
+    "@portabletext/react": "1.0.6",
     "@sanity/block-content-to-react": "3.0.0",
     "@sanity/client": "2.23.2",
     "@sendgrid/mail": "7.6.2",
