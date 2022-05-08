@@ -13,14 +13,14 @@ export default async function handler(
     const msg = {
       to: `andrewgeorgemitchell@gmail.com`, // Change to your recipient
       from: `andrewgeorgemitchell@gmail.com`, // Change to your verified sender
-      subject: `${request.body.name} has filled out oztoca form`,
-      text: `${request.body.name} has filled out oztoca form. Here's their info:
+      subject: `${request.body.name} has filled out an oztoca form`,
+      text: `${request.body.name} has filled out oztoca form on https://oztoca.com${request.body.src}. Here's their info:
           Name: ${request.body.name}
           Email: ${request.body.email}
           Message: ${request.body.message}
           `,
       html: `<strong>
-          <h1>${request.body.name} has filled out oztoca form</h1>
+          <h1>${request.body.name} has filled out oztoca form on https://oztoca.com${request.body.src}</h1>
           <p>Here's their info:</p>
           <ul>
               <li>Name: ${request.body.name}</li>

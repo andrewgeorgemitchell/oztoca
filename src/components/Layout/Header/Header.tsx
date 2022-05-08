@@ -139,7 +139,11 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
               {subLinks ? (
                 subLinks.map(({ label: subLinkLabel, link: subLinkLink }) => (
                   <>
-                    <RouterLink href={subLinkLink as string} passHref>
+                    <RouterLink
+                      key={`${subLinkLink}-headerLink`}
+                      href={subLinkLink as string}
+                      passHref
+                    >
                       <ListItem
                         key={`${subLinkLink}-headerLink`}
                         button
@@ -154,7 +158,11 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
                 ))
               ) : (
                 <>
-                  <RouterLink href={link as string} passHref>
+                  <RouterLink
+                    key={`${link}-headerLink`}
+                    href={link as string}
+                    passHref
+                  >
                     <ListItem
                       key={`${link}-headerLink`}
                       button
