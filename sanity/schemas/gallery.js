@@ -14,13 +14,6 @@ const GallerySchema = {
       type: 'string',
       description: 'The title of the picture',
     },
-    {
-      title: 'Description',
-      name: 'description',
-      type: 'array',
-      of: [{ type: 'block' }],
-      description: 'The description of the picture',
-    },
   ],
 };
 
