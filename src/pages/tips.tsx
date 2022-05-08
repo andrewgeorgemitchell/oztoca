@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
+import { ChevronRight } from '@mui/icons-material';
 import { PortableText } from '@portabletext/react';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
@@ -76,13 +76,8 @@ const Tips: React.FC<TipsProps> = ({ tips }) => {
           {tips.map((tip: any) => (
             <Grid key={tip.title} item xs={12} md={12} lg={12}>
               <Accordion>
-                <AccordionSummary expandIcon={<ArrowRightOutlinedIcon />}>
-                  <Typography
-                    variant="h4"
-                    style={{ paddingBottom: 16, textAlign: `center` }}
-                  >
-                    {tip.title}
-                  </Typography>
+                <AccordionSummary expandIcon={<ChevronRight />}>
+                  <Typography variant="h4">{tip.title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails
                   style={{ display: `flex`, flexDirection: `column` }}
