@@ -10,7 +10,8 @@
     "start": "sanity start",
     "build": "sanity build",
     "login": "sanity login",
-    "deploy": "sanity deploy"
+    "deploy": "sanity deploy",
+    "upgrade": "sanity upgrade"
   },
   "keywords": [
     "sanity"

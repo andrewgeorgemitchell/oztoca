@@ -5,7 +5,7 @@ import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const ContactForm: React.FC = () => {
+const ContactForm = ({ src }: { src: string }) => {
   const defaultValues = {
     name: ``,
     email: ``,
@@ -20,6 +20,7 @@ const ContactForm: React.FC = () => {
     setLoading(true);
     axios
       .post(`/api/contact-form`, {
+        src,
         name: formValues.name,
         email: formValues.email,
         phone: formValues.phone,
@@ -86,7 +87,7 @@ const ContactForm: React.FC = () => {
             fullWidth
             id="phone-input"
             name="phone"
-            label="phone"
+            label="Phone"
             type="number"
             value={formValues.phone}
             onChange={handleChange}
