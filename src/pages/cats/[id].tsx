@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
 import { SanityClient } from '~/services/SanityClient';
@@ -36,10 +35,7 @@ export async function getStaticProps({ params }: any) {
 
 const CatPage: React.FC<CatPageProps> = ({ cat }) => {
   const classes = useStyles();
-  const router = useRouter();
-  const queryParams = router.query;
 
-  console.log(`cat:`, cat);
   return (
     <Layout title={cat.title} description={cat.title}>
       <div className={classes.root}>

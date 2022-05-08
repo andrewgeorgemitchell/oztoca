@@ -21,7 +21,6 @@ export const NextLinkComposed = React.forwardRef<
   const {
     to,
     linkAs,
-    href,
     replace,
     scroll,
     passHref,
@@ -42,6 +41,8 @@ export const NextLinkComposed = React.forwardRef<
       passHref={passHref}
       locale={locale}
     >
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <a ref={ref} {...other} />
     </NextLink>
   );
@@ -64,7 +65,6 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
     className: classNameProps,
     href,
     noLinkStyle,
-    role, // Link don't have roles.
     ...other
   } = props;
 

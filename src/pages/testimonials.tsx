@@ -16,11 +16,9 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
   },
 }));
 
-type TestimonialsProps = {};
+// TODO: add testimonials from backend
 
-//TODO: add testimonials from backend
-
-const Testimonials: React.FC<TestimonialsProps> = () => {
+const Testimonials: React.FC = () => {
   const classes = useStyles();
   return (
     <Layout title="Testimonials" description="Testimonials">
@@ -31,8 +29,8 @@ const Testimonials: React.FC<TestimonialsProps> = () => {
             style={{
               fontSize: 30,
               fontWeight: 500,
-              color: '#333',
-              lineHeight: '1em',
+              color: `#333`,
+              lineHeight: `1em`,
               letterSpacing: 2,
               marginBottom: 10,
             }}
@@ -45,7 +43,7 @@ const Testimonials: React.FC<TestimonialsProps> = () => {
             <Grid container item xs={12} spacing={1}>
               <Grid item xs={6} lg={10} md={6}>
                 <Typography
-                  style={{ paddingBottom: '3%', fontSize: 15, fontWeight: 300 }}
+                  style={{ paddingBottom: `3%`, fontSize: 15, fontWeight: 300 }}
                 >
                   I received my kitten Dalwhinnie aka “Whinnie” 2 days ago. I
                   can’t say enough about how helpful Karen was in answering all
