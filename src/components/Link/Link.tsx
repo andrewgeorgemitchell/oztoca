@@ -41,6 +41,8 @@ export const NextLinkComposed = React.forwardRef<
       passHref={passHref}
       locale={locale}
     >
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <a ref={ref} {...other} />
     </NextLink>
   );

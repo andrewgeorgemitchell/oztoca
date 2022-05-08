@@ -39,8 +39,6 @@ type TipsProps = {
   tips: any;
 };
 
-// TODO: add tips from backend
-
 export async function getStaticProps() {
   const tips = await SanityClient.fetch(`*[_type == 'tip']{
   title,
@@ -56,7 +54,6 @@ export async function getStaticProps() {
 
 const Tips: React.FC<TipsProps> = ({ tips }) => {
   const classes = useStyles();
-  console.log(tips);
   return (
     <Layout title="Tips" description="Tips">
       <Grid className={classes.root} container spacing={3} direction="column">

@@ -30,7 +30,7 @@ export default async function handler(
           </ul>
           </strong>`,
     };
-    const res = await sgMail.send(msg);
+    await sgMail.send(msg);
     response.status(200).json({ message: `ok` });
   } catch (error) {
     response.status(500).json({ error });

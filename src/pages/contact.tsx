@@ -62,7 +62,6 @@ const Contact: React.FC<ContactProps> = () => {
                 md={6}
                 style={{ display: `flex`, justifyContent: `center` }}
               >
-                {/* @ts-ignore */}
                 <Avatar
                   alt="contact"
                   src="/assets/ContactOztoca.jpg"
