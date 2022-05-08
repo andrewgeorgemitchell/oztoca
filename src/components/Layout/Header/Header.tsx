@@ -1,9 +1,20 @@
-import { Grid, Typography } from '@material-ui/core';
+import {
+  Divider,
+  Drawer,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Menu } from '@mui/icons-material';
 import Image from 'next/image';
-import React from 'react';
-import Link from '~/components/Link/Link';
+import RouterLink from 'next/link';
+import React, { useState } from 'react';
 import { CustomTheme } from '~/styles/theme';
+import Link from '../../Link/Link';
 import { NavLink } from './HeaderLink.type';
 // eslint-disable-next-line import/no-cycle
 import HeaderLink from './HeaderLink/HeaderLink';
@@ -31,76 +42,136 @@ type HeaderProps = {
 
 const Header: React.FC<HeaderProps> = ({ links }) => {
   const classes = useStyles();
+  const isMd = useMediaQuery(`(min-width:800px)`);
+  const isLg = useMediaQuery(`(min-width:1200px)`);
+
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <nav
-      className={classes.root}
-      style={{
-        backgroundColor: `#bdb9b9`,
-      }}
-    >
-      <Grid
-        className={classes.container}
-        container
-        direction="row"
-        wrap="nowrap"
-        spacing={1}
-        alignItems="center"
-        justifyContent="space-between"
+    <>
+      <nav
+        className={classes.root}
+        style={{
+          backgroundColor: `#bdb9b9`,
+        }}
       >
         <Grid
-          item
+          className={classes.container}
           container
-          style={{
-            margin: 0,
-          }}
-        >
-          <Link
-            href={{
-              pathname: `/`,
-            }}
-            color="inherit"
-            underline="none"
-          >
-            <Grid container spacing={1} alignItems="center">
-              <Grid item>
-                <Image
-                  src="/logo.svg"
-                  alt="Bobtail Kitten Logo"
-                  width={75}
-                  height={75}
-                />
-              </Grid>
-              <Grid item>
-                <Typography variant="h3" color="inherit">
-                  bobtail kitten
-                </Typography>
-              </Grid>
-            </Grid>
-          </Link>
-        </Grid>
-        <Grid
-          item
-          container
-          spacing={1}
-          justifyContent="flex-end"
-          alignItems="center"
+          direction="row"
           wrap="nowrap"
+          spacing={1}
+          alignItems="center"
+          justifyContent="space-between"
         >
-          {links.map(({ label, link, subLinks }) => (
-            <Grid item key={`${link}-headerLink`}>
-              <HeaderLink
-                link={{
-                  label,
-                  link,
-                  subLinks,
-                }}
-              />
-            </Grid>
-          ))}
+          <Grid
+            item
+            container
+            style={{
+              margin: 0,
+            }}
+          >
+            <Link
+              href={{
+                pathname: `/`,
+              }}
+              color="inherit"
+              underline="none"
+            >
+              <Grid container spacing={1} alignItems="center">
+                <Grid item>
+                  <Image
+                    src="/logo.svg"
+                    alt="Bobtail Kitten Logo"
+                    width={75}
+                    height={75}
+                  />
+                </Grid>
+                {isLg && (
+                  <Grid item>
+                    <Typography variant="h3" color="inherit">
+                      bobtail kitten
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
+            </Link>
+          </Grid>
+          <Grid
+            item
+            container
+            spacing={1}
+            justifyContent="flex-end"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            {isMd ? (
+              links.map(({ label, link, subLinks }) => (
+                <Grid item key={`${link}-headerLink`}>
+                  <HeaderLink
+                    link={{
+                      label,
+                      link,
+                      subLinks,
+                    }}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <IconButton onClick={() => setOpen(true)}>
+                <Menu />
+              </IconButton>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </nav>
+      </nav>
+      <Drawer
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        anchor="right"
+        PaperProps={{ style: { width: 200 } }}
+      >
+        <List>
+          {links.map(({ label, link, subLinks }) => (
+            <>
+              {subLinks ? (
+                subLinks.map(({ label: subLinkLabel, link: subLinkLink }) => (
+                  <>
+                    <RouterLink href={subLinkLink as string} passHref>
+                      <ListItem
+                        key={`${subLinkLink}-headerLink`}
+                        button
+                        component="a"
+                        onClick={() => setOpen(false)}
+                      >
+                        {subLinkLabel}
+                      </ListItem>
+                    </RouterLink>
+                    <Divider />
+                  </>
+                ))
+              ) : (
+                <>
+                  <RouterLink href={link as string} passHref>
+                    <ListItem
+                      key={`${link}-headerLink`}
+                      button
+                      component="a"
+                      onClick={() => setOpen(false)}
+                    >
+                      {label}
+                    </ListItem>
+                  </RouterLink>
+                  <Divider />
+                </>
+              )}
+            </>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 };
 
