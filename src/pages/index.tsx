@@ -33,7 +33,7 @@ type HomeProps = {
   cats: Array<Record<any, any>>;
 };
 
-export async function getStaticProps(): Promise<{ props: HomeProps }> {
+export async function getStaticProps() {
   const cats = await SanityClient.fetch(
     `*[_type == 'cat' && references('809972f0-482f-4773-ae99-410af506a231')][0...2]{
       _id,
@@ -49,6 +49,7 @@ export async function getStaticProps(): Promise<{ props: HomeProps }> {
     props: {
       cats,
     },
+    revalidate: 10,
   };
 }
 
