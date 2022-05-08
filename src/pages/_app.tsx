@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { DefaultTheme } from '~/styles/theme';
+import { pageview } from '../../lib/gtag';
 
 type AppProps = {
   Component: React.ComponentType<any>;
@@ -16,7 +17,7 @@ const App: React.FC<AppProps> = (props) => {
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      gtag.pageview(url);
+      pageview(url);
     };
     // When the component is mounted, subscribe to router changes
     // and log those page views

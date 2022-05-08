@@ -49,6 +49,7 @@ export async function getStaticProps() {
     props: {
       tips,
     },
+    revalidate: 10,
   };
 }
 

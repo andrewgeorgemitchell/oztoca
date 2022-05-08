@@ -74,7 +74,7 @@ export async function getStaticPaths() {
     params: { id: slug.current },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: `blocking` };
 }
 
 export async function getStaticProps({ params }: any) {
@@ -110,7 +110,7 @@ export async function getStaticProps({ params }: any) {
     .filter((relatedCat: any) => relatedCat.category.name === cat.category.name)
     .filter((relatedCat: any) => relatedCat._id !== cat._id);
 
-  return { props: { cat, relatedCats } };
+  return { props: { cat, relatedCats }, revalidate: 10 };
 }
 
 const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
