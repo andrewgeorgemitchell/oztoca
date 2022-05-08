@@ -2,12 +2,14 @@ import { Card, CardMedia, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import Layout from '~/components/Layout/Layout';
+import { SanityClient } from '~/services/SanityClient';
 import { CustomTheme } from '~/styles/theme';
 import Modal from '../components/Modal/Modal';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
   root: {
     ...theme.mixins.containerStyles(theme),
+    marginTop: 30,
   },
   card: {
     borderRadius: 10,
@@ -18,38 +20,28 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
   },
 }));
 
-const images = [
-  {
-    title: `#1`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-  {
-    title: `#2`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-  {
-    title: `#3`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-  {
-    title: `#4`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-  {
-    title: `#5`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-  {
-    title: `#6`,
-    src: `https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60`,
-  },
-];
+type GalleryProps = {
+  gallery: any;
+};
 
-const Gallery: React.FC = () => {
+export async function getStaticProps() {
+  const gallery = await SanityClient.fetch(`*[_type == 'gallery']{
+  "imageUrl": image.asset->url,
+  title,
+  }`);
+
+  return {
+    props: {
+      gallery,
+    },
+  };
+}
+
+const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
   const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-
   const handleClick = (e: any) => {
     setOpen(!open);
 
@@ -68,21 +60,29 @@ const Gallery: React.FC = () => {
         style={{ paddingTop: 16, paddingBottom: 16 }}
       >
         <Grid container item xs={12}>
-          <Card className={classes.card}>
-            <Typography variant="h2" style={{ textAlign: `center` }}>
-              The Awww Gallery
-            </Typography>
-          </Card>
+          <Typography
+            variant="h1"
+            style={{
+              fontSize: 30,
+              fontWeight: 500,
+              color: `#333`,
+              lineHeight: `1em`,
+              letterSpacing: 2,
+              marginBottom: 10,
+            }}
+          >
+            The Awww Gallery
+          </Typography>
         </Grid>
         <Grid container item xs={12} spacing={2}>
-          {images.map((image) => (
+          {gallery.map((image: any) => (
             <Grid
               style={{ cursor: `pointer` }}
               item
               xs={6}
               md={4}
               lg={4}
-              key={image.src}
+              key={image.imageUrl}
               onClick={(e) => handleClick(e)}
             >
               {open && (
@@ -96,7 +96,7 @@ const Gallery: React.FC = () => {
                 <CardMedia
                   component="img"
                   height="150"
-                  image={image.src}
+                  image={image.imageUrl}
                   alt={image.title}
                 />
               </Card>
