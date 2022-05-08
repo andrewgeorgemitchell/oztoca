@@ -12,10 +12,11 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
   link: {
     textDecoration: `none`,
     borderRadius: 0,
-    borderBottom: `2px solid #fff`,
+    borderRadiusTopLeft: 10,
+    borderRadiusTopRight: 10,
+    borderBottom: `2px solid transparent`,
     height: `100%`,
     '&:hover': {
-      backgroundColor: `#fff`,
       borderBottom: `2px solid ${theme.palette.secondary.main}`,
     },
   },
