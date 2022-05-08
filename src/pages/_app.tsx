@@ -2,10 +2,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Script from 'next/script';
 import React, { useEffect } from 'react';
 import { DefaultTheme } from '~/styles/theme';
-import * as gtag from '../../lib/gtag';
+import { gtag } from '../../lib/gtag';
 
 type AppProps = {
   Component: React.ComponentType<any>;
@@ -40,24 +39,6 @@ const App: React.FC<AppProps> = (props) => {
 
   return (
     <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-      />
-      <Script
-        id="gtag-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gtag.GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-        }}
-      />
       <Head>
         <title>My page</title>
         <meta
