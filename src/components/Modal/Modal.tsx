@@ -9,7 +9,7 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({ image, selectedPhoto }) => (
   <div>
     {image.title === selectedPhoto && (
-      <Lightbox large={image.src} alt={image.title} />
+      <Lightbox large={image.imageUrl} alt={image.title} />
     )}
   </div>
 );
