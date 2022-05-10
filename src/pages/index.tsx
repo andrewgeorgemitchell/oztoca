@@ -1,10 +1,12 @@
-import { Divider, Grid, Typography } from '@material-ui/core';
+import { Button, Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
+import { NextLinkComposed } from '~/components/Link/Link';
 import { SanityClient } from '~/services/SanityClient';
 import { CustomTheme } from '~/styles/theme';
+import { formatLink } from '~/utils';
 import CatCard from '../components/CatCard/CatCard';
 
 const useStyles = makeStyles<CustomTheme>((theme) => ({
@@ -35,7 +37,7 @@ type HomeProps = {
 
 export async function getStaticProps() {
   const cats = await SanityClient.fetch(
-    `*[_type == 'cat' && references('809972f0-482f-4773-ae99-410af506a231')][0...2]{
+    `*[_type == 'cat' && references('809972f0-482f-4773-ae99-410af506a231')][0...3]{
       _id,
       title,
       slug,
@@ -114,6 +116,29 @@ const Home: (props: HomeProps) => JSX.Element = ({ cats }) => {
               />
             </Grid>
           ))}
+        </Grid>
+        <Grid item container spacing={3} xs={12}>
+          <Grid
+            container
+            item
+            xs={12}
+            style={{
+              justifyContent: `center`,
+              alignItems: `center`,
+            }}
+          >
+            <Button
+              component={NextLinkComposed}
+              color="secondary"
+              variant="contained"
+              to={formatLink(`/cats?category=kittens`)}
+            >
+              View all our kittens
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
         </Grid>
         <Grid item xs={12} style={{ alignSelf: `center` }}>
           <Grid container spacing={6}>
