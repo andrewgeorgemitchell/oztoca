@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
     paddingLeft: `2%`,
     paddingRight: `2%`,
     gap: 20,
-    [theme.breakpoints.down(`md`)]: {
+    [theme.breakpoints.up(`md`)]: {
       paddingLeft: `5%`,
       paddingRight: `5%`,
       marginTop: 30,
