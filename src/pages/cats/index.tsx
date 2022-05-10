@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
     marginTop: 5,
     marginBottom: 5,
     gridTemplateColumns: `auto`,
-    gridTemplateRows: `sidebar content`,
+    gridTemplateRows: `650px auto`,
     gridTemplateAreas: `
       'sidebar'
       'content'
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
       marginTop: 30,
       marginBottom: 30,
       gridTemplateColumns: `300px auto`,
-      gridTemplateRows: `600px auto`,
+      gridTemplateRows: `650px auto`,
       gridTemplateAreas: `
           'sidebar content'
           'none content'
