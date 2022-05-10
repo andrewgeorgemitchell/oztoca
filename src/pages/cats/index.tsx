@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Divider,
   Fade,
   FormControl,
@@ -11,8 +12,9 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Pets } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Layout from '~/components/Layout/Layout';
 import { SanityClient } from '~/services/SanityClient';
 import { CustomTheme } from '~/styles/theme';
@@ -20,51 +22,61 @@ import CatCard from '../../components/CatCard/CatCard';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
   root: {
-    ...theme.mixins.containerStyles(theme),
-    marginTop: 30,
-    minHeight: `80vh`,
+    marginTop: 5,
+    marginBottom: 5,
+    gridTemplateColumns: `auto`,
+    gridTemplateRows: `650px auto`,
+    gridTemplateAreas: `
+      'sidebar'
+      'content'
+      `,
+    paddingLeft: `2%`,
+    paddingRight: `2%`,
+    gap: 20,
+    [theme.breakpoints.down(`md`)]: {
+      paddingLeft: `5%`,
+      paddingRight: `5%`,
+      marginTop: 30,
+      marginBottom: 30,
+      gridTemplateColumns: `300px auto`,
+      gridTemplateRows: `650px auto`,
+      gridTemplateAreas: `
+          'sidebar content'
+          'none content'
+          `,
+    },
   },
   sidebar: {
-    padding: 20,
     '& > *': {
       flexBasis: `auto`,
     },
-    position: `sticky`,
-    top: 0,
+    gridArea: `sidebar`,
+  },
+  content: {
+    gridArea: `content`,
   },
 }));
 
 type CatsProps = {
   categories: Array<Record<any, any>>;
-  cats: Array<Record<any, any>>;
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const categories = await SanityClient.fetch(`*[_type == 'category']`);
-  const cats: Array<Record<any, any>> = await SanityClient.fetch(
-    `*[_type == 'cat']{
-      _id,
-      title,
-      slug,
-      category->,
-      images[]{
-        asset->
-      },
-      sex,
-    }`,
-  );
 
   return {
     props: {
       categories,
-      cats,
     },
+    revalidate: 10,
   };
 }
 
-const Cats: React.FC<CatsProps> = ({ categories, cats }) => {
+const Cats: React.FC<CatsProps> = ({ categories }) => {
   const classes = useStyles();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [cats, setCats] = useState<Array<Record<any, any>>>([]);
   const queryParams = router.query;
 
   const [selectedCategory, setSelectedCategory] = useState(
@@ -73,15 +85,53 @@ const Cats: React.FC<CatsProps> = ({ categories, cats }) => {
   const [selectedGender, setSelectedGender] = useState(``);
 
   useEffect(() => {
+    const fetchCats = async () => {
+      const catRes: Array<Record<any, any>> = await SanityClient.fetch(
+        `*[_type == 'cat']{
+          _id,
+          title,
+          slug,
+          category->,
+          images[]{
+            asset->
+          },
+          sex,
+        }`,
+      );
+      setCats(catRes);
+      setLoading(false);
+    };
+    fetchCats();
+  }, []);
+
+  useEffect(() => {
     setSelectedCategory(queryParams.category);
   }, [queryParams]);
+
+  const filteredCats = useMemo(
+    () =>
+      cats
+        .filter((cat) => {
+          if (selectedCategory) {
+            return cat.category.slug.current === selectedCategory;
+          }
+          return true;
+        })
+        .filter((cat) => {
+          if (selectedGender) {
+            return cat.sex === selectedGender;
+          }
+          return true;
+        }),
+    [cats, selectedCategory, selectedGender],
+  );
 
   return (
     <Layout
       title="View our Bobtail Cats"
       description="Full list of Bobtail cats & kittens from Oztoca"
     >
-      <Grid className={classes.root} container spacing={10}>
+      <Grid className={classes.root} container>
         <Grid
           className={classes.sidebar}
           container
@@ -161,31 +211,54 @@ const Cats: React.FC<CatsProps> = ({ categories, cats }) => {
             </Button>
           </Grid>
         </Grid>
-        <Grid container spacing={1} item xs={12} md={9}>
-          {cats
-            .filter((cat) => {
-              if (selectedCategory) {
-                return cat.category.slug.current === selectedCategory;
-              }
-              return true;
-            })
-            .filter((cat) => {
-              if (selectedGender) {
-                return cat.sex === selectedGender;
-              }
-              return true;
-            })
-            .map((cat: any) => (
-              <Fade key={cat._id} in timeout={500}>
-                <Grid item xs={12} md={6} lg={4}>
-                  <CatCard
-                    name={cat.title}
-                    imageUrl={cat.images[0].asset.url}
-                    slug={cat.slug.current}
-                  />
+        <Grid
+          className={classes.content}
+          container
+          spacing={1}
+          item
+          xs={12}
+          md={9}
+          {...(filteredCats.length === 0 && { justifyContent: `center` })}
+        >
+          {loading ? (
+            <>
+              <Grid item xs={12}>
+                <CircularProgress size="lg" />
+              </Grid>
+            </>
+          ) : (
+            <>
+              {filteredCats.length > 0 ? (
+                filteredCats.map((cat: any) => (
+                  <Fade key={cat._id} in timeout={500}>
+                    <Grid item xs={12} md={6} lg={4}>
+                      <CatCard
+                        name={cat.title}
+                        imageUrl={cat.images[0].asset.url}
+                        slug={cat.slug.current}
+                      />
+                    </Grid>
+                  </Fade>
+                ))
+              ) : (
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  md={4}
+                  style={{ alignSelf: `center`, gap: 10 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Pets style={{ height: 50, width: 50 }} />
+                  <Typography variant="h5" align="center">
+                    No Bobtails found matching this criteria, please try editing
+                    the filter settings
+                  </Typography>
                 </Grid>
-              </Fade>
-            ))}
+              )}
+            </>
+          )}
         </Grid>
       </Grid>
     </Layout>

@@ -11,6 +11,11 @@ import { NextLinkComposed } from '../Link/Link';
 
 const useStyles = makeStyles({
   root: {},
+  cardHeader: {
+    '& .MuiCardHeader-content': {
+      maxWidth: `100%`,
+    },
+  },
 });
 
 type CatCardProps = {
@@ -24,15 +29,25 @@ const CatCard: React.FC<CatCardProps> = ({ imageUrl, name, slug }) => {
   return (
     <Card className={classes.root}>
       <CardMedia component="img" height="194" image={imageUrl} />
-      <CardHeader title={name} />
+      <CardHeader
+        className={classes.cardHeader}
+        title={name}
+        titleTypographyProps={{
+          noWrap: true,
+          style: {
+            maxWidth: `100%`,
+          },
+        }}
+        style={{ maxWidth: `100%` }}
+      />
       <CardActions style={{ display: `flex`, flexDirection: `row-reverse` }}>
         <Button
           variant="outlined"
-          color="primary"
+          color="secondary"
           component={NextLinkComposed}
           to={`/cats/${slug}`}
         >
-          View Kitten
+          View Bobtail
         </Button>
       </CardActions>
     </Card>

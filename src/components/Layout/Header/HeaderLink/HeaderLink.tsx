@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { NextLinkComposed } from '~/components/Link/Link';
 import { CustomTheme } from '~/styles/theme';
+import { formatLink } from '~/utils';
 import { NavLink } from '../HeaderLink.type';
 
 const useStyles = makeStyles<CustomTheme>((theme) => ({
@@ -24,19 +25,6 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     borderBottom: `2px solid ${theme.palette.secondary.main}`,
   },
 }));
-
-const formatLink = (link: string) => ({
-  ...(link?.includes(`?`)
-    ? {
-        pathname: link.split(`?`)[0],
-        query: {
-          ...Object.fromEntries(new URLSearchParams(link.split(`?`)[1])),
-        },
-      }
-    : {
-        pathname: link,
-      }),
-});
 
 type HeaderLinkProps = {
   link: NavLink;
