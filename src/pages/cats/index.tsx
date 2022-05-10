@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Divider,
   Fade,
   FormControl,
@@ -36,41 +37,50 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
 
 type CatsProps = {
   categories: Array<Record<any, any>>;
-  cats: Array<Record<any, any>>;
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const categories = await SanityClient.fetch(`*[_type == 'category']`);
-  const cats: Array<Record<any, any>> = await SanityClient.fetch(
-    `*[_type == 'cat']{
-      _id,
-      title,
-      slug,
-      category->,
-      images[]{
-        asset->
-      },
-      sex,
-    }`,
-  );
 
   return {
     props: {
       categories,
-      cats,
     },
+    revalidate: 10,
   };
 }
 
-const Cats: React.FC<CatsProps> = ({ categories, cats }) => {
+const Cats: React.FC<CatsProps> = ({ categories }) => {
   const classes = useStyles();
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [cats, setCats] = useState<Array<Record<any, any>>>([]);
   const queryParams = router.query;
 
   const [selectedCategory, setSelectedCategory] = useState(
     queryParams.category,
   );
   const [selectedGender, setSelectedGender] = useState(``);
+
+  useEffect(() => {
+    const fetchCats = async () => {
+      const catRes: Array<Record<any, any>> = await SanityClient.fetch(
+        `*[_type == 'cat']{
+          _id,
+          title,
+          slug,
+          category->,
+          images[]{
+            asset->
+          },
+          sex,
+        }`,
+      );
+      setCats(catRes);
+      setLoading(false);
+    };
+    fetchCats();
+  }, []);
 
   useEffect(() => {
     setSelectedCategory(queryParams.category);
@@ -162,30 +172,38 @@ const Cats: React.FC<CatsProps> = ({ categories, cats }) => {
           </Grid>
         </Grid>
         <Grid container spacing={1} item xs={12} md={9}>
-          {cats
-            .filter((cat) => {
-              if (selectedCategory) {
-                return cat.category.slug.current === selectedCategory;
-              }
-              return true;
-            })
-            .filter((cat) => {
-              if (selectedGender) {
-                return cat.sex === selectedGender;
-              }
-              return true;
-            })
-            .map((cat: any) => (
-              <Fade key={cat._id} in timeout={500}>
-                <Grid item xs={12} md={6} lg={4}>
-                  <CatCard
-                    name={cat.title}
-                    imageUrl={cat.images[0].asset.url}
-                    slug={cat.slug.current}
-                  />
-                </Grid>
-              </Fade>
-            ))}
+          {loading ? (
+            <>
+              <Grid item xs={12}>
+                <CircularProgress size="lg" />
+              </Grid>
+            </>
+          ) : (
+            cats
+              .filter((cat) => {
+                if (selectedCategory) {
+                  return cat.category.slug.current === selectedCategory;
+                }
+                return true;
+              })
+              .filter((cat) => {
+                if (selectedGender) {
+                  return cat.sex === selectedGender;
+                }
+                return true;
+              })
+              .map((cat: any) => (
+                <Fade key={cat._id} in timeout={500}>
+                  <Grid item xs={12} md={6} lg={4}>
+                    <CatCard
+                      name={cat.title}
+                      imageUrl={cat.images[0].asset.url}
+                      slug={cat.slug.current}
+                    />
+                  </Grid>
+                </Fade>
+              ))
+          )}
         </Grid>
       </Grid>
     </Layout>
