@@ -1,5 +1,6 @@
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import Document, { Head, Html, Main, NextScript, Script } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 import React from 'react';
 import { DefaultTheme } from '~/styles/theme';
 
@@ -21,13 +22,12 @@ export default class MyDocument extends Document {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${gtag.GA_TRACKING_ID}', {
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
               page_path: window.location.pathname,
             });
           `,
             }}
           />
-
           {/* PWA primary color */}
           <meta
             name="theme-color"
