@@ -107,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           >
             {isMd ? (
               links.map(({ label, link, subLinks }) => (
-                <Grid item key={`${link}-headerLink`}>
+                <Grid item key={`${label}-headerLink`}>
                   <HeaderLink
                     link={{
                       label,
@@ -134,49 +134,37 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
         PaperProps={{ style: { width: 200 } }}
       >
         <List>
-          {links.map(({ label, link, subLinks }) => (
-            <>
-              {subLinks ? (
-                subLinks.map(({ label: subLinkLabel, link: subLinkLink }) => (
-                  <>
-                    <RouterLink
-                      key={`${subLinkLink}-headerLink`}
-                      href={subLinkLink as string}
-                      passHref
-                    >
-                      <ListItem
-                        key={`${subLinkLink}-headerLink`}
-                        button
-                        component="a"
-                        onClick={() => setOpen(false)}
-                      >
-                        {subLinkLabel}
-                      </ListItem>
-                    </RouterLink>
-                    <Divider />
-                  </>
-                ))
-              ) : (
-                <>
-                  <RouterLink
-                    key={`${link}-headerLink`}
-                    href={link as string}
-                    passHref
-                  >
+          {links.map(({ label, link, subLinks }) =>
+            subLinks ? (
+              subLinks.map(({ label: subLinkLabel, link: subLinkLink }) => (
+                <React.Fragment key={`${subLinkLabel}-headerLink`}>
+                  <RouterLink href={subLinkLink as string} passHref>
                     <ListItem
-                      key={`${link}-headerLink`}
                       button
                       component="a"
                       onClick={() => setOpen(false)}
                     >
-                      {label}
+                      {subLinkLabel}
                     </ListItem>
                   </RouterLink>
                   <Divider />
-                </>
-              )}
-            </>
-          ))}
+                </React.Fragment>
+              ))
+            ) : (
+              <React.Fragment key={`${link}-headerLink`}>
+                <RouterLink
+                  key={`${link}-headerLink`}
+                  href={link as string}
+                  passHref
+                >
+                  <ListItem button component="a" onClick={() => setOpen(false)}>
+                    {label}
+                  </ListItem>
+                </RouterLink>
+                <Divider />
+              </React.Fragment>
+            ),
+          )}
         </List>
       </Drawer>
     </>

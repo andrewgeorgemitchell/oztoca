@@ -43,10 +43,7 @@ const Contact: React.FC<ContactProps> = () => {
       >
         <Grid item xs={12}>
           <Card className={classes.card}>
-            <Typography
-              variant="h3"
-              style={{ paddingBottom: `15px`, textAlign: `center` }}
-            >
+            <Typography variant="h4" align="center" paragraph>
               Contact Us
             </Typography>
             <Grid

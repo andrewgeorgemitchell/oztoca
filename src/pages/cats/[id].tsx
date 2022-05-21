@@ -1,20 +1,16 @@
-import { Card, Chip, Divider, Fade, Grid, Typography } from '@material-ui/core';
+import { Card, Chip, Divider, Fade, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { PortableText } from '@portabletext/react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import CatCard from '~/components/CatCard/CatCard';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
+import { SanityImage } from '~/components/SanityImage';
 import { SanityClient } from '~/services/SanityClient';
 import { CustomTheme } from '~/styles/theme';
 
 const useStyles = makeStyles<CustomTheme>((theme) => ({
-  relatedCatCont: {
-    paddingBottom: 20,
-    ...theme.mixins.containerStyles(theme),
-  },
   root: {
     padding: 20,
     ...theme.mixins.containerStyles(theme),
@@ -23,9 +19,9 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     gridTemplateColumns: `auto`,
     gridTemplateRows: `300px auto auto`,
     gridTemplateAreas: `
-      "image"
-      "content"
-      "contactForm"
+    "image"
+    "content"
+    "contactForm"
     `,
     [theme.breakpoints.up(`md`)]: {
       paddingLeft: `10%`,
@@ -33,8 +29,8 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
       gridTemplateColumns: `400px 1fr`,
       gridTemplateRows: `300px 1fr`,
       gridTemplateAreas: `
-        "image content"
-        "contactForm content"
+      "image content"
+      "contactForm content"
       `,
     },
   },
@@ -54,6 +50,19 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     padding: 10,
     [theme.breakpoints.up(`md`)]: {
       padding: 20,
+    },
+  },
+  relatedCatCont: {
+    paddingBottom: 20,
+    ...theme.mixins.containerStyles(theme),
+  },
+  relatedCatFlex: {
+    display: `flex`,
+    flexWrap: `wrap`,
+    justifyContent: `center`,
+    gap: 10,
+    [theme.breakpoints.up(`md`)]: {
+      justifyContent: `flex-start !important`,
     },
   },
 }));
@@ -121,7 +130,7 @@ const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
     <Layout title={cat.title} description={cat.title}>
       <div className={classes.root}>
         <div className={classes.imageCont}>
-          <Image
+          <SanityImage
             src={cat.images[0].asset.url}
             alt={cat.title}
             height={300}
@@ -160,19 +169,17 @@ const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
         <Typography variant="h4" paragraph>
           Related Bobtails:
         </Typography>
-        <Grid container spacing={2}>
+        <div className={classes.relatedCatFlex}>
           {relatedCats.slice(0, 3).map((relatedCat: any) => (
             <Fade key={relatedCat._id} in timeout={500}>
-              <Grid item xs={12} md={6} lg={4}>
-                <CatCard
-                  name={relatedCat.title}
-                  imageUrl={relatedCat.images[0].asset.url}
-                  slug={relatedCat.slug.current}
-                />
-              </Grid>
+              <CatCard
+                name={relatedCat.title}
+                imageUrl={relatedCat.images[0].asset.url}
+                slug={relatedCat.slug.current}
+              />
             </Fade>
           ))}
-        </Grid>
+        </div>
       </div>
     </Layout>
   );

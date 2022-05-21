@@ -1,16 +1,13 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  CardMedia,
-} from '@material-ui/core';
+import { Button, Card, CardActions, CardHeader } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { NextLinkComposed } from '../Link/Link';
+import { NextLinkComposed } from '~/components/Link/Link';
+import { SanityImage } from '~/components/SanityImage/SanityImage';
 
 const useStyles = makeStyles({
-  root: {},
+  root: {
+    width: 320,
+  },
   cardHeader: {
     '& .MuiCardHeader-content': {
       maxWidth: `100%`,
@@ -28,7 +25,7 @@ const CatCard: React.FC<CatCardProps> = ({ imageUrl, name, slug }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
-      <CardMedia component="img" height="194" image={imageUrl} />
+      <SanityImage alt={name} src={imageUrl} height={180} width={320} />
       <CardHeader
         className={classes.cardHeader}
         title={name}
