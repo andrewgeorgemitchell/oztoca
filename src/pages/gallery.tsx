@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
   card: {
     borderRadius: 10,
     margin: `0 auto`,
-    width: 225,
-    height: 150,
+    height: 225,
+    width: 337,
   },
 }));
 
@@ -93,8 +93,8 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
               className={classes.card}
             >
               <SanityImage
-                height={150}
-                width={225}
+                height={225}
+                width={337}
                 src={image.imageUrl}
                 alt={image.title}
               />
