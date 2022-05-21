@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
     ...theme.mixins.containerStyles(theme),
     marginTop: 30,
     marginBottom: 30,
+    marginLeft: 0,
   },
   container: {
     margin: 20,
@@ -59,19 +60,7 @@ const Tips: React.FC<TipsProps> = ({ tips }) => {
     <Layout title="Tips" description="Tips">
       <Grid className={classes.root} container spacing={3} direction="column">
         <Grid item xs={12}>
-          <Typography
-            variant="h1"
-            style={{
-              fontSize: 30,
-              fontWeight: 500,
-              color: `#333`,
-              lineHeight: `1em`,
-              letterSpacing: 2,
-              marginBottom: 10,
-            }}
-          >
-            Our Tips:
-          </Typography>
+          <Typography variant="h4">Our Tips:</Typography>
         </Grid>
         <Grid container spacing={2} style={{ padding: 10 }} item xs={12}>
           {tips.map((tip: any) => (

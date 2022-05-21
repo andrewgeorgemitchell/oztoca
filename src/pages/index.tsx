@@ -108,7 +108,15 @@ const Home: (props: HomeProps) => JSX.Element = ({ cats }) => {
         </Grid>
         <Grid item container spacing={1} xs={12}>
           {cats.map((cat) => (
-            <Grid item xs={12} sm={6} md={4} key={cat.id}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={cat.id}
+              container
+              justifyContent="center"
+            >
               <CatCard
                 name={cat.title}
                 imageUrl={cat.images[0].asset.url}
