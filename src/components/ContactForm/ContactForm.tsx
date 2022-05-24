@@ -1,9 +1,10 @@
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Grid } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ContactForm = ({ src }: { src: string }) => {
   const defaultValues = {
@@ -16,6 +17,24 @@ const ContactForm = ({ src }: { src: string }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(`success`);
+  const [token, setToken] = useState(null);
+  const captchaRef = useRef(null);
+
+  useEffect(() => {
+    if (token) {
+      // Token is set, can submit here
+      console.log(`hCaptcha Token: ${token}`);
+    }
+  }, [token]);
+
+  const onExpire = () => {
+    console.log(`hCaptcha Token Expired`);
+  };
+
+  const onError = (err: any) => {
+    console.log(`hCaptcha Error: ${err}`);
+  };
+
   const sendEmail = () => {
     setLoading(true);
     axios
@@ -46,6 +65,7 @@ const ContactForm = ({ src }: { src: string }) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    captchaRef.current.execute();
     sendEmail();
   };
 
@@ -124,6 +144,16 @@ const ContactForm = ({ src }: { src: string }) => {
           />
         </Grid>
         <Grid item xs={12} style={{ textAlign: `center` }}>
+          <HCaptcha
+            sitekey="70a1e18f-36d8-4612-8f4c-f4427e3858aa"
+            // @ts-ignore
+            onVerify={setToken}
+            onError={onError}
+            onExpire={onExpire}
+            size="normal"
+            ref={captchaRef}
+            theme="dark"
+          />
           <LoadingButton
             variant="contained"
             color="secondary"
