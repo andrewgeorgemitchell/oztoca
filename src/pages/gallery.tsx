@@ -1,22 +1,38 @@
-import { Card, CardMedia, Grid, Typography } from '@material-ui/core';
+import { Card, Dialog, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState } from 'react';
 import Layout from '~/components/Layout/Layout';
+import { SanityImage } from '~/components/SanityImage';
 import { SanityClient } from '~/services/SanityClient';
 import { CustomTheme } from '~/styles/theme';
-import Modal from '../components/Modal/Modal';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
   root: {
     ...theme.mixins.containerStyles(theme),
     marginTop: 30,
   },
+  galleryCont: {
+    display: `grid`,
+    gridTemplateColumns: `repeat(1, 1fr)`,
+    gap: 20,
+    [theme.breakpoints.up(`sm`)]: {
+      gridTemplateColumns: `repeat(2, 1fr)`,
+    },
+    [theme.breakpoints.up(`md`)]: {
+      gridTemplateColumns: `repeat(3, 1fr)`,
+    },
+    [theme.breakpoints.up(`lg`)]: {
+      gridTemplateColumns: `repeat(4, 1fr)`,
+    },
+    [theme.breakpoints.up(`xl`)]: {
+      gridTemplateColumns: `repeat(5, 1fr)`,
+    },
+  },
   card: {
     borderRadius: 10,
-    boxShadow: `0px 0px 10px rgba(0, 0, 0, 0.1)`,
     margin: `0 auto`,
-    padding: theme.spacing(2),
-    width: `100%`,
+    height: 225,
+    width: 337,
   },
 }));
 
@@ -34,6 +50,7 @@ export async function getStaticProps() {
     props: {
       gallery,
     },
+    revalidate: 10,
   };
 }
 
@@ -41,12 +58,17 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const handleClick = (e: any) => {
-    setOpen(!open);
-
-    setSelectedPhoto(e.target.alt);
+  const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
+  console.log(`selectedPhoto:`, selectedPhoto);
+  const handleSelect = (image: any) => {
+    setOpen(true);
+    setSelectedPhoto(image);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Layout title="Gallery" description="Gallery">
       <Grid
@@ -59,51 +81,46 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
         spacing={2}
         style={{ paddingTop: 16, paddingBottom: 16 }}
       >
-        <Grid container item xs={12}>
-          <Typography
-            variant="h1"
-            style={{
-              fontSize: 30,
-              fontWeight: 500,
-              color: `#333`,
-              lineHeight: `1em`,
-              letterSpacing: 2,
-              marginBottom: 10,
-            }}
-          >
-            The Awww Gallery
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} spacing={2}>
+        <Typography variant="h4" align="center" paragraph>
+          The Awww Gallery
+        </Typography>
+        <div className={classes.galleryCont}>
           {gallery.map((image: any) => (
-            <Grid
-              style={{ cursor: `pointer` }}
-              item
-              xs={6}
-              md={4}
-              lg={4}
+            <Card
               key={image.imageUrl}
-              onClick={(e) => handleClick(e)}
+              onClick={() => handleSelect(image)}
+              style={{ cursor: `pointer` }}
+              className={classes.card}
             >
-              {open && (
-                <Modal
-                  image={image}
-                  handleClose={handleClick}
-                  selectedPhoto={selectedPhoto}
-                />
-              )}
-              <Card className={classes.card}>
-                <CardMedia
-                  component="img"
-                  height="150"
-                  image={image.imageUrl}
-                  alt={image.title}
-                />
-              </Card>
-            </Grid>
+              <SanityImage
+                height={225}
+                width={337}
+                src={image.imageUrl}
+                alt={image.title}
+              />
+            </Card>
           ))}
-        </Grid>
+        </div>
       </Grid>
+      <Dialog open={open} onClose={handleClose} maxWidth="xl">
+        {selectedPhoto && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              style={{ maxHeight: `85vh` }}
+              src={`${selectedPhoto.imageUrl}?format=auto`}
+              alt={selectedPhoto.title}
+            />
+            <Typography
+              variant="h4"
+              align="center"
+              style={{ background: `#fff`, padding: 10 }}
+            >
+              {selectedPhoto.title}
+            </Typography>
+          </>
+        )}
+      </Dialog>
     </Layout>
   );
 };

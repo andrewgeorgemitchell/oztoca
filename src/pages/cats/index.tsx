@@ -22,17 +22,18 @@ import CatCard from '../../components/CatCard/CatCard';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
   root: {
+    display: `grid`,
     marginTop: 5,
     marginBottom: 5,
     gridTemplateColumns: `auto`,
-    gridTemplateRows: `650px auto`,
+    gridTemplateRows: `auto`,
     gridTemplateAreas: `
       'sidebar'
       'content'
       `,
     paddingLeft: `2%`,
     paddingRight: `2%`,
-    gap: 20,
+    gap: 40,
     [theme.breakpoints.up(`md`)]: {
       paddingLeft: `5%`,
       paddingRight: `5%`,
@@ -68,7 +69,7 @@ export async function getStaticProps() {
     props: {
       categories,
     },
-    revalidate: 10,
+    revalidate: 60,
   };
 }
 
@@ -131,14 +132,11 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
       title="View our Bobtail Cats"
       description="Full list of Bobtail cats & kittens from Oztoca"
     >
-      <Grid className={classes.root} container>
+      <div className={classes.root}>
         <Grid
           className={classes.sidebar}
           container
           spacing={3}
-          item
-          xs={12}
-          md={3}
           direction="column"
           wrap="nowrap"
           justifyContent="flex-start"
@@ -214,11 +212,9 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
         <Grid
           className={classes.content}
           container
-          spacing={1}
-          item
-          xs={12}
-          md={9}
-          {...(filteredCats.length === 0 && { justifyContent: `center` })}
+          justifyContent="center"
+          alignItems="flex-start"
+          style={{ gap: 10 }}
         >
           {loading ? (
             <>
@@ -231,13 +227,11 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
               {filteredCats.length > 0 ? (
                 filteredCats.map((cat: any) => (
                   <Fade key={cat._id} in timeout={500}>
-                    <Grid item xs={12} md={6} lg={4}>
-                      <CatCard
-                        name={cat.title}
-                        imageUrl={cat.images[0].asset.url}
-                        slug={cat.slug.current}
-                      />
-                    </Grid>
+                    <CatCard
+                      name={cat.title}
+                      imageUrl={cat.images[0].asset.url}
+                      slug={cat.slug.current}
+                    />
                   </Fade>
                 ))
               ) : (
@@ -260,7 +254,7 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
             </>
           )}
         </Grid>
-      </Grid>
+      </div>
     </Layout>
   );
 };
