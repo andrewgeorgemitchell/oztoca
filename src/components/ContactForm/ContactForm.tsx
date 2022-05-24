@@ -18,7 +18,7 @@ const ContactForm = ({ src }: { src: string }) => {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(`success`);
   const [token, setToken] = useState(null);
-  const captchaRef = useRef(null);
+  const captchaRef = useRef<any>(null);
 
   useEffect(() => {
     if (token) {
