@@ -3,68 +3,59 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
 import { CustomTheme } from '~/styles/theme';
+import { SanityClient } from '../services/SanityClient';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
   root: {
     ...theme.mixins.containerStyles(theme),
     marginTop: 30,
+    marginBottom: 30,
+    marginLeft: 0,
   },
   card: {
     padding: 30,
-    margin: 10,
     borderRadius: 10,
   },
 }));
 
-// TODO: add testimonials from backend
+type testimonialProps = {
+  testimonials: any;
+};
 
-const Testimonials: React.FC = () => {
+export async function getStaticProps() {
+  const testimonials = await SanityClient.fetch(
+    `*[_type == 'testimonial'] {
+      author,
+      description,
+
+    }`,
+  );
+  return {
+    props: {
+      testimonials,
+    },
+  };
+}
+
+const Testimonials: React.FC<testimonialProps> = ({ testimonials }) => {
   const classes = useStyles();
+
   return (
     <Layout title="Testimonials" description="Testimonials">
       <Grid className={classes.root} container spacing={3} direction="column">
         <Grid item xs={12}>
-          <Typography
-            variant="h1"
-            style={{
-              fontSize: 30,
-              fontWeight: 500,
-              color: `#333`,
-              lineHeight: `1em`,
-              letterSpacing: 2,
-              marginBottom: 10,
-            }}
-          >
-            Our Testimonials:
-          </Typography>
+          <Typography variant="h4">Our Testimonials:</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Card className={classes.card}>
-            <Grid container item xs={12} spacing={1}>
-              <Grid item xs={6} lg={10} md={6}>
-                <Typography
-                  style={{ paddingBottom: `3%`, fontSize: 15, fontWeight: 300 }}
-                >
-                  I received my kitten Dalwhinnie aka “Whinnie” 2 days ago. I
-                  can’t say enough about how helpful Karen was in answering all
-                  my questions through the process. Due to my odd work/travel
-                  schedule I had to wait a few weeks after choosing her before I
-                  could actually receive her. Karen was kindly patient with us.
-                  Whinnie is the most beautiful, affectionate and laid back
-                  kitten, a true testament to the wonderful care & devotion
-                  Karen gave her. Her coat & cleanliness is immaculate and she
-                  is amazingly true to breed standard. It is a pleasure to see a
-                  breeder put quality & care first. My Whinnie is everything I
-                  could have hoped for & more! We adore her. Thank you Oztoca!
-                </Typography>
-
-                <Typography style={{ fontWeight: 600 }}>
-                  Eve Marie English
-                </Typography>
-              </Grid>
-            </Grid>
-          </Card>
-        </Grid>
+        {testimonials.map((testimonial: any) => (
+          <Grid item xs={12} key={testimonial.author}>
+            <Card className={classes.card}>
+              <Typography>{testimonial.description}</Typography>
+              <Typography style={{ fontWeight: 600 }}>
+                {testimonial.author}
+              </Typography>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </Layout>
   );
