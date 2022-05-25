@@ -20,14 +20,6 @@ const ContactForm = ({ src }: { src: string }) => {
   const [token, setToken] = useState<any>(null);
   const captchaRef = useRef<any>(null);
 
-  const onExpire = () => {
-    console.log(`hCaptcha Token Expired`);
-  };
-
-  const onError = (err: any) => {
-    console.log(`hCaptcha Error: ${err}`);
-  };
-
   const sendEmail = () => {
     setLoading(true);
     axios
@@ -140,8 +132,6 @@ const ContactForm = ({ src }: { src: string }) => {
           <HCaptcha
             sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY as string}
             onVerify={setToken}
-            onError={onError}
-            onExpire={onExpire}
             size="normal"
             ref={captchaRef}
           />
