@@ -59,7 +59,7 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
 
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
-  console.log(`selectedPhoto:`, selectedPhoto);
+
   const handleSelect = (image: any) => {
     setOpen(true);
     setSelectedPhoto(image);

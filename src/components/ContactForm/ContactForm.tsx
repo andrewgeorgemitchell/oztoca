@@ -4,7 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const ContactForm = ({ src }: { src: string }) => {
   const defaultValues = {
@@ -17,15 +17,8 @@ const ContactForm = ({ src }: { src: string }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(`success`);
-  const [token, setToken] = useState(``);
+  const [token, setToken] = useState<any>(null);
   const captchaRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (token) {
-      // Token is set, can submit here
-      console.log(`hCaptcha Token: ${token}`);
-    }
-  }, [token]);
 
   const onExpire = () => {
     console.log(`hCaptcha Token Expired`);
@@ -65,7 +58,7 @@ const ContactForm = ({ src }: { src: string }) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    captchaRef.current.execute();
+    captchaRef.current.resetCaptcha();
     sendEmail();
   };
 
@@ -145,19 +138,18 @@ const ContactForm = ({ src }: { src: string }) => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: `center` }}>
           <HCaptcha
-            sitekey="70a1e18f-36d8-4612-8f4c-f4427e3858aa"
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY as string}
             onVerify={setToken}
             onError={onError}
             onExpire={onExpire}
             size="normal"
             ref={captchaRef}
-            theme="dark"
           />
           <LoadingButton
             variant="contained"
             color="secondary"
             type="submit"
-            disabled={loading}
+            disabled={loading || !token}
             loading={loading}
             startIcon={<SendIcon />}
             loadingPosition="start"
