@@ -17,7 +17,7 @@ const ContactForm = ({ src }: { src: string }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(`success`);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(``);
   const captchaRef = useRef<any>(null);
 
   useEffect(() => {
@@ -146,7 +146,6 @@ const ContactForm = ({ src }: { src: string }) => {
         <Grid item xs={12} style={{ textAlign: `center` }}>
           <HCaptcha
             sitekey="70a1e18f-36d8-4612-8f4c-f4427e3858aa"
-            // @ts-ignore
             onVerify={setToken}
             onError={onError}
             onExpire={onExpire}
