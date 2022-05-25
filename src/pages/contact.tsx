@@ -1,6 +1,7 @@
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Avatar, Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
 import { CustomTheme } from '~/styles/theme';
@@ -29,6 +30,9 @@ type ContactProps = {};
 const Contact: React.FC<ContactProps> = () => {
   const classes = useStyles();
   const router = useRouter();
+
+  const [contactCaptcha, setContactCaptcha] = useState<any>(null);
+  const captchaRef = useRef<any>(null);
 
   return (
     <Layout title="Contact" description="Contact us">
@@ -69,45 +73,34 @@ const Contact: React.FC<ContactProps> = () => {
                 />
               </Grid>
               <Grid item xs={12} lg={8} md={6}>
-                <Typography
-                  variant="h5"
-                  style={{
-                    paddingBottom: `25px`,
-                    fontSize: 18,
-                    fontWeight: 350,
-                  }}
-                >
+                <Typography variant="body2" paragraph>
                   All of our kittens are healthy and happy at affordable prices.
                 </Typography>
-                <Typography
-                  variant="h5"
-                  style={{
-                    paddingBottom: `25px`,
-                    fontSize: 18,
-                    fontWeight: 350,
-                  }}
-                >
+                <Typography variant="body2" paragraph>
                   For serious inquiries please fill out the form below.
                 </Typography>
-                <Typography
-                  variant="h5"
-                  style={{
-                    paddingBottom: `5px`,
-                    fontSize: 18,
-                    fontWeight: 350,
-                  }}
-                >
-                  E-mail:{` `}
-                  <a href="mailto:" style={{ color: `rgb(126,0,0)` }}>
-                    oztocabobtails@gmail.com{` `}
-                  </a>
+                <Typography variant="body2" gutterBottom>
+                  <strong>E-mail:{` `}</strong>
+                  {`oztocabobtails@gmail.com`
+                    .split(``)
+                    .map((char) => (contactCaptcha ? char : `*`))}
                 </Typography>
-                <Typography
-                  variant="h5"
-                  style={{ fontSize: 18, fontWeight: 350 }}
-                >
-                  Mobile: 805-358-4547
+                <Typography variant="body2" gutterBottom>
+                  <strong>Mobile: </strong>
+
+                  {`805-358-4547`
+                    .split(``)
+                    .map((char) => (contactCaptcha ? char : `*`))}
                 </Typography>
+                <Typography variant="body2" paragraph>
+                  Click checkbox below to view contact details👇
+                </Typography>
+                <HCaptcha
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY as string}
+                  onVerify={setContactCaptcha}
+                  size="normal"
+                  ref={captchaRef}
+                />
               </Grid>
             </Grid>
             <Grid container spacing={2}>

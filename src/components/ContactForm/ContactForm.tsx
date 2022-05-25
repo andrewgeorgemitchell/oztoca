@@ -1,9 +1,10 @@
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Grid } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Alert, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const ContactForm = ({ src }: { src: string }) => {
   const defaultValues = {
@@ -16,6 +17,9 @@ const ContactForm = ({ src }: { src: string }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState(`success`);
+  const [token, setToken] = useState<any>(null);
+  const captchaRef = useRef<any>(null);
+
   const sendEmail = () => {
     setLoading(true);
     axios
@@ -46,6 +50,7 @@ const ContactForm = ({ src }: { src: string }) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    captchaRef.current.resetCaptcha();
     sendEmail();
   };
 
@@ -124,11 +129,17 @@ const ContactForm = ({ src }: { src: string }) => {
           />
         </Grid>
         <Grid item xs={12} style={{ textAlign: `center` }}>
+          <HCaptcha
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY as string}
+            onVerify={setToken}
+            size="normal"
+            ref={captchaRef}
+          />
           <LoadingButton
             variant="contained"
             color="secondary"
             type="submit"
-            disabled={loading}
+            disabled={loading || !token}
             loading={loading}
             startIcon={<SendIcon />}
             loadingPosition="start"
