@@ -11,8 +11,8 @@ export default async function handler(
 ) {
   try {
     const msg = {
-      to: `andrewgeorgemitchell@gmail.com`, // Change to your recipient
-      from: `andrewgeorgemitchell@gmail.com`, // Change to your verified sender
+      to: `oztocabobtails@gmail.com`, // Change to your recipient
+      from: `info@2Quip.com`, // Change to your verified sender
       subject: `${request.body.name} has filled out an oztoca form`,
       text: `${request.body.name} has filled out oztoca form on https://oztoca.com${request.body.src}. Here's their info:
           Name: ${request.body.name}
@@ -20,7 +20,7 @@ export default async function handler(
           Message: ${request.body.message}
           `,
       html: `<strong>
-          <h1>${request.body.name} has filled out oztoca form on https://oztoca.com${request.body.src}</h1>
+          <p>${request.body.name} has filled out oztoca form on https://oztoca.com${request.body.src}</p>
           <p>Here's their info:</p>
           <ul>
               <li>Name: ${request.body.name}</li>
