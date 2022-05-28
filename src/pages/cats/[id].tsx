@@ -184,7 +184,7 @@ const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
             </IconButton>
             {cat.images.map((image: any, i: number) => (
               <IconButton
-                key={image.asset.id}
+                key={image.asset.url}
                 size="small"
                 color={
                   image.asset.url === cat.images[currentGalleryImg].asset.url
