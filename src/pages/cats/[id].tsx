@@ -1,8 +1,20 @@
-import { Card, Chip, Divider, Fade, Typography } from '@material-ui/core';
+import {
+  Card,
+  Chip,
+  Divider,
+  Fade,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  ChevronLeft,
+  ChevronRight,
+  FiberManualRecord,
+} from '@mui/icons-material';
 import { PortableText } from '@portabletext/react';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CatCard from '~/components/CatCard/CatCard';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
@@ -17,7 +29,7 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
     display: `grid`,
     gap: 20,
     gridTemplateColumns: `auto`,
-    gridTemplateRows: `300px auto auto`,
+    gridTemplateRows: `340px auto auto`,
     gridTemplateAreas: `
     "image"
     "content"
@@ -27,7 +39,7 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
       paddingLeft: `10%`,
       paddingRight: `10%`,
       gridTemplateColumns: `400px 1fr`,
-      gridTemplateRows: `300px 1fr`,
+      gridTemplateRows: `340px 1fr`,
       gridTemplateAreas: `
       "image content"
       "contactForm content"
@@ -36,7 +48,11 @@ const useStyles = makeStyles<CustomTheme>((theme) => ({
   },
   imageCont: {
     gridArea: `image`,
-    margin: `auto`,
+    height: `100%`,
+    background: `#fff`,
+    display: `flex`,
+    flexDirection: `column`,
+    justifyContent: `center`,
   },
   contentCont: {
     gridArea: `content`,
@@ -126,16 +142,68 @@ const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
   const classes = useStyles();
   const router = useRouter();
 
+  const [currentGalleryImg, setCurrentGalleryImg] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentGalleryImg((curr) =>
+        curr >= cat.images.length - 1 ? 0 : curr + 1,
+      );
+    }, 7.5 * 1000);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Layout title={cat.title} description={cat.title}>
       <div className={classes.root}>
         <div className={classes.imageCont}>
           <SanityImage
-            src={cat.images[0].asset.url}
+            src={cat.images[currentGalleryImg].asset.url}
             alt={cat.title}
             height={300}
             width={400}
           />
+          <div
+            style={{
+              display: `flex`,
+              alignItems: `center`,
+              justifyContent: `center`,
+            }}
+          >
+            <IconButton
+              size="small"
+              onClick={() => {
+                setCurrentGalleryImg((curr) => curr - 1);
+              }}
+              disabled={currentGalleryImg === 0}
+            >
+              <ChevronLeft />
+            </IconButton>
+            {cat.images.map((image: any, i: number) => (
+              <IconButton
+                key={image.asset.url}
+                size="small"
+                color={
+                  image.asset.url === cat.images[currentGalleryImg].asset.url
+                    ? `secondary`
+                    : `default`
+                }
+                onClick={() => setCurrentGalleryImg(i)}
+              >
+                <FiberManualRecord />
+              </IconButton>
+            ))}
+            <IconButton
+              size="small"
+              onClick={() => setCurrentGalleryImg((curr) => curr + 1)}
+              disabled={currentGalleryImg === cat.images.length - 1}
+            >
+              <ChevronRight />
+            </IconButton>
+          </div>
         </div>
         <Card className={classes.contentCont}>
           <Typography variant="h5">{cat.title}</Typography>

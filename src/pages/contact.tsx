@@ -1,7 +1,13 @@
-import HCaptcha from '@hcaptcha/react-hcaptcha';
-import { Avatar, Card, Grid, makeStyles, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Button,
+  Card,
+  Grid,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { useRouter } from 'next/router';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
 import { CustomTheme } from '~/styles/theme';
@@ -31,8 +37,7 @@ const Contact: React.FC<ContactProps> = () => {
   const classes = useStyles();
   const router = useRouter();
 
-  const [contactCaptcha, setContactCaptcha] = useState<any>(null);
-  const captchaRef = useRef<any>(null);
+  const [contactDetails, setContactDetails] = useState<boolean>(false);
 
   return (
     <Layout title="Contact" description="Contact us">
@@ -83,24 +88,25 @@ const Contact: React.FC<ContactProps> = () => {
                   <strong>E-mail:{` `}</strong>
                   {`oztocabobtails@gmail.com`
                     .split(``)
-                    .map((char) => (contactCaptcha ? char : `*`))}
+                    .map((char) => (contactDetails ? char : `*`))}
                 </Typography>
-                <Typography variant="body2" gutterBottom>
+                <Typography variant="body2" paragraph>
                   <strong>Mobile: </strong>
 
                   {`805-358-4547`
                     .split(``)
-                    .map((char) => (contactCaptcha ? char : `*`))}
+                    .map((char) => (contactDetails ? char : `*`))}
                 </Typography>
-                <Typography variant="body2" paragraph>
-                  Click checkbox below to view contact details👇
-                </Typography>
-                <HCaptcha
-                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY as string}
-                  onVerify={setContactCaptcha}
-                  size="normal"
-                  ref={captchaRef}
-                />
+                {!contactDetails && (
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setContactDetails(true);
+                    }}
+                  >
+                    Click to view contact details
+                  </Button>
+                )}
               </Grid>
             </Grid>
             <Grid container spacing={2}>

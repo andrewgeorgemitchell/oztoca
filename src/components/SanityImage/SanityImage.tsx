@@ -1,14 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
 import Image, { ImageProps } from 'next/image';
 import React, { useCallback } from 'react';
 
-const useStyles = makeStyles({
-  root: {},
-});
-
 export const SanityImage = ({ height, width, alt, ...props }: ImageProps) => {
-  const classes = useStyles();
-
   const SanityImageLoader: ImageProps['loader'] = useCallback(
     ({ src: loaderSrc }) =>
       `${loaderSrc}?auto=format&fit=fill&fit=center&w=${width}&h=${height}&bg=fff`,
@@ -16,7 +9,13 @@ export const SanityImage = ({ height, width, alt, ...props }: ImageProps) => {
   );
 
   return (
-    <div className={classes.root}>
+    <div
+      style={{
+        display: `flex`,
+        alignItems: `center`,
+        justifyContent: `center`,
+      }}
+    >
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <Image
