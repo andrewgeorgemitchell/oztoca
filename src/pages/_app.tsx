@@ -2,6 +2,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import React, { useEffect } from 'react';
 import { DefaultTheme } from '~/styles/theme';
 import { pageview } from '../../lib/gtag';
@@ -51,6 +52,21 @@ const App: React.FC<AppProps> = (props) => {
         <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
+      {/* Global Site Tag (gtag.js) - Google Analytics */}
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
+      <Script id="google-analytics" strategy="lazyOnload">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
     </>
   );
 };
