@@ -21,14 +21,10 @@ type LayoutProps = {
     name: string;
     content: string;
   }>;
+  children: React.ReactNode;
 };
 
-const Layout: React.FC<LayoutProps> = ({
-  title,
-  description,
-  tags,
-  children,
-}) => {
+const Layout = ({ title, description, tags, children }: LayoutProps) => {
   const classes = useStyles();
 
   const NavLinks = useMemo(

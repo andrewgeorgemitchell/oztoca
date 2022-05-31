@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 
 export const SanityImage = ({ height, width, alt, ...props }: ImageProps) => {
   const SanityImageLoader: ImageProps['loader'] = useCallback(
-    ({ src: loaderSrc }) =>
+    ({ src: loaderSrc }: { src: string }) =>
       `${loaderSrc}?auto=format&fit=fill&fit=center&w=${width}&h=${height}&bg=fff`,
     [height, width],
   );
