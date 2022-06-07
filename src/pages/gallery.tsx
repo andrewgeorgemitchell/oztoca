@@ -1,40 +1,9 @@
-import { Card, Dialog, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box, Card, Dialog, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import Layout from '~/components/Layout/Layout';
 import { SanityImage } from '~/components/SanityImage';
 import { SanityClient } from '~/services/SanityClient';
-import { CustomTheme } from '~/styles/theme';
-
-const useStyles = makeStyles((theme: CustomTheme) => ({
-  root: {
-    ...theme.mixins.containerStyles(theme),
-    marginTop: 30,
-  },
-  galleryCont: {
-    display: `grid`,
-    gridTemplateColumns: `repeat(1, 1fr)`,
-    gap: 20,
-    [theme.breakpoints.up(`sm`)]: {
-      gridTemplateColumns: `repeat(2, 1fr)`,
-    },
-    [theme.breakpoints.up(`md`)]: {
-      gridTemplateColumns: `repeat(3, 1fr)`,
-    },
-    [theme.breakpoints.up(`lg`)]: {
-      gridTemplateColumns: `repeat(4, 1fr)`,
-    },
-    [theme.breakpoints.up(`xl`)]: {
-      gridTemplateColumns: `repeat(5, 1fr)`,
-    },
-  },
-  card: {
-    borderRadius: 10,
-    margin: `0 auto`,
-    height: 225,
-    width: 337,
-  },
-}));
+import { DefaultTheme } from '~/styles/theme';
 
 type GalleryProps = {
   gallery: any;
@@ -55,8 +24,6 @@ export async function getStaticProps() {
 }
 
 const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
-  const classes = useStyles();
-
   const [open, setOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
 
@@ -72,7 +39,10 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
   return (
     <Layout title="Gallery" description="Gallery">
       <Grid
-        className={classes.root}
+        sx={{
+          ...DefaultTheme.mixins.containerStyles(DefaultTheme),
+          marginTop: `30px !important`,
+        }}
         container
         item
         xs={12}
@@ -84,13 +54,36 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
         <Typography variant="h4" align="center" paragraph>
           The Awww Gallery
         </Typography>
-        <div className={classes.galleryCont}>
+        <Box
+          sx={{
+            display: `grid`,
+            gridTemplateColumns: `repeat(1, 1fr)`,
+            gap: 2.5,
+            [DefaultTheme.breakpoints.up(`sm`)]: {
+              gridTemplateColumns: `repeat(2, 1fr)`,
+            },
+            [DefaultTheme.breakpoints.up(`md`)]: {
+              gridTemplateColumns: `repeat(3, 1fr)`,
+            },
+            [DefaultTheme.breakpoints.up(`lg`)]: {
+              gridTemplateColumns: `repeat(4, 1fr)`,
+            },
+            [DefaultTheme.breakpoints.up(`xl`)]: {
+              gridTemplateColumns: `repeat(5, 1fr)`,
+            },
+          }}
+        >
           {gallery.map((image: any) => (
             <Card
               key={image.imageUrl}
               onClick={() => handleSelect(image)}
-              style={{ cursor: `pointer` }}
-              className={classes.card}
+              sx={{
+                borderRadius: 2,
+                margin: `0 auto`,
+                height: 225,
+                width: 337,
+                cursor: `pointer`,
+              }}
             >
               <SanityImage
                 height={225}
@@ -100,7 +93,7 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
               />
             </Card>
           ))}
-        </div>
+        </Box>
       </Grid>
       <Dialog open={open} onClose={handleClose} maxWidth="xl">
         {selectedPhoto && (

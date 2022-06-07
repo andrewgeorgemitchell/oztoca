@@ -1,40 +1,13 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  Grid,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Avatar, Button, Card, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
-import { CustomTheme } from '~/styles/theme';
-
-const useStyles = makeStyles<CustomTheme>((theme) => ({
-  root: {
-    ...theme.mixins.containerStyles(theme),
-  },
-  container: {
-    width: `100%`,
-    justifyContent: `center`,
-    padding: 10,
-  },
-  card: {
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
-    boxShadow: `0px 0px 10px rgba(0, 0, 0, 0.1)`,
-    maxWidth: 800,
-  },
-}));
-
+import { DefaultTheme } from '~/styles/theme';
 // eslint-disable-next-line @typescript-eslint/ban-types
 type ContactProps = {};
 
 const Contact: React.FC<ContactProps> = () => {
-  const classes = useStyles();
   const router = useRouter();
 
   const [contactDetails, setContactDetails] = useState<boolean>(false);
@@ -47,11 +20,24 @@ const Contact: React.FC<ContactProps> = () => {
         spacing={2}
         alignItems="center"
         justifyContent="center"
-        className={classes.container}
         item
+        sx={{
+          width: `100%`,
+          justifyContent: `center`,
+          padding: 0.5,
+          ...DefaultTheme.mixins.containerStyles(DefaultTheme),
+        }}
       >
         <Grid item xs={12}>
-          <Card className={classes.card}>
+          <Card
+            sx={{
+              padding: 2,
+              margin: 2,
+              borderRadius: 2,
+              boxShadow: `0px 0px 10px rgba(0, 0, 0, 0.1)`,
+              maxWidth: 800,
+            }}
+          >
             <Typography variant="h4" align="center" paragraph>
               Contact Us
             </Typography>
@@ -100,6 +86,7 @@ const Contact: React.FC<ContactProps> = () => {
                 {!contactDetails && (
                   <Button
                     variant="outlined"
+                    color="inherit"
                     onClick={() => {
                       setContactDetails(true);
                     }}

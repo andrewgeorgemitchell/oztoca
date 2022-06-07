@@ -1,4 +1,6 @@
+import { Menu } from '@mui/icons-material';
 import {
+  Box,
   Divider,
   Drawer,
   Grid,
@@ -7,41 +9,21 @@ import {
   ListItem,
   Typography,
   useMediaQuery,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Menu } from '@mui/icons-material';
+} from '@mui/material';
 import Image from 'next/image';
 import RouterLink from 'next/link';
 import React, { useState } from 'react';
-import { CustomTheme } from '~/styles/theme';
+import { DefaultTheme } from '~/styles/theme';
 import Link from '../../Link/Link';
 import { NavLink } from './HeaderLink.type';
 // eslint-disable-next-line import/no-cycle
 import HeaderLink from './HeaderLink/HeaderLink';
-
-const useStyles = makeStyles<CustomTheme>((theme) => ({
-  root: {
-    height: 100,
-    width: `100%`,
-    position: `sticky`,
-    top: `0px`,
-    borderBottom: `1px solid #e0e0e0`,
-    zIndex: 1000,
-  },
-  container: {
-    height: 100,
-    margin: 0,
-    ...theme.mixins.containerStyles(theme),
-    width: `100%`,
-  },
-}));
 
 type HeaderProps = {
   links: NavLink[];
 };
 
 const Header: React.FC<HeaderProps> = ({ links }) => {
-  const classes = useStyles();
   const isMd = useMediaQuery(`(min-width:800px)`);
   const isLg = useMediaQuery(`(min-width:1200px)`);
 
@@ -49,14 +31,25 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
 
   return (
     <>
-      <nav
-        className={classes.root}
-        style={{
+      <Box
+        sx={{
+          height: 100,
+          width: `100%`,
+          position: `sticky`,
+          top: `0px`,
+          borderBottom: `1px solid #e0e0e0`,
+          zIndex: 1000,
           backgroundColor: `#bdb9b9`,
+          overflow: `hidden`,
         }}
       >
         <Grid
-          className={classes.container}
+          sx={{
+            height: 100,
+            margin: `0px !important`,
+            ...DefaultTheme.mixins.containerStyles(DefaultTheme),
+            width: `100%`,
+          }}
           container
           direction="row"
           wrap="nowrap"
@@ -124,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
             )}
           </Grid>
         </Grid>
-      </nav>
+      </Box>
       <Drawer
         open={open}
         onClose={() => {

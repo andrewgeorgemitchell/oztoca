@@ -1,8 +1,8 @@
-import { Card, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Card, Grid, Typography } from '@mui/material';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
-import { CustomTheme } from '~/styles/theme';
+import { CustomTheme, DefaultTheme } from '~/styles/theme';
 import { SanityClient } from '../services/SanityClient';
 
 const useStyles = makeStyles((theme: CustomTheme) => ({
@@ -11,10 +11,6 @@ const useStyles = makeStyles((theme: CustomTheme) => ({
     marginTop: 30,
     marginBottom: 30,
     marginLeft: 0,
-  },
-  card: {
-    padding: 30,
-    borderRadius: 10,
   },
 }));
 
@@ -42,14 +38,29 @@ const Testimonials: React.FC<testimonialProps> = ({ testimonials }) => {
 
   return (
     <Layout title="Testimonials" description="Testimonials">
-      <Grid className={classes.root} container spacing={3} direction="column">
+      <Grid
+        container
+        spacing={3}
+        direction="column"
+        sx={{
+          ...DefaultTheme.mixins.containerStyles(DefaultTheme),
+          ml: `0px !important`,
+          mt: `30px !important`,
+          mb: `30px !important`,
+        }}
+      >
         <Grid item xs={12}>
           <Typography variant="h4">Our Testimonials:</Typography>
         </Grid>
         {testimonials.map((testimonial: any) => (
           <Grid item xs={12} key={testimonial.author}>
-            <Card className={classes.card}>
-              <Typography>{testimonial.description}</Typography>
+            <Card
+              sx={{
+                padding: 4,
+                borderRadius: 2,
+              }}
+            >
+              <Typography paragraph>{testimonial.description}</Typography>
               <Typography style={{ fontWeight: 600 }}>
                 {testimonial.author}
               </Typography>

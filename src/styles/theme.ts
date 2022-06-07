@@ -9,7 +9,7 @@ export type DefaultThemeOptions = {
   };
 };
 
-export type CustomTheme = Theme & DefaultThemeOptions;
+export type CustomTheme = DefaultThemeOptions & Theme;
 
 const quipCustomThemeOptions: DefaultThemeOptions = {
   mixins: {
@@ -37,7 +37,7 @@ const quipCustomThemeOptions: DefaultThemeOptions = {
   },
 };
 
-export const DefaultTheme: Theme = createTheme(
+export const DefaultTheme: CustomTheme = createTheme(
   {
     palette: {
       primary: blue,

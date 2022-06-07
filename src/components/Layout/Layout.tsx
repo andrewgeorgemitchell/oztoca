@@ -1,18 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
 import React, { useMemo } from 'react';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    display: `flex`,
-    flexDirection: `column`,
-    minHeight: `100vh`,
-    position: `relative`,
-    backgroundColor: `#fff`,
-  },
-}));
 
 type LayoutProps = {
   title: string;
@@ -29,8 +18,6 @@ const Layout: React.FC<LayoutProps> = ({
   tags,
   children,
 }) => {
-  const classes = useStyles();
-
   const NavLinks = useMemo(
     () => [
       {
@@ -75,7 +62,15 @@ const Layout: React.FC<LayoutProps> = ({
   );
 
   return (
-    <div className={classes.root}>
+    <div
+      style={{
+        display: `flex`,
+        flexDirection: `column`,
+        minHeight: `100vh`,
+        position: `relative`,
+        backgroundColor: `#fff`,
+      }}
+    >
       <Head>
         <title>Oztoca - {title}</title>
         <meta name="description" content={description} />
