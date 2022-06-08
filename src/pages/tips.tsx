@@ -9,7 +9,6 @@ import {
 import { PortableText } from '@portabletext/react';
 import React from 'react';
 import Layout from '~/components/Layout/Layout';
-import { DefaultTheme } from '~/styles/theme';
 import { SanityClient } from '../services/SanityClient';
 
 type TipsProps = {
@@ -34,10 +33,12 @@ const Tips: React.FC<TipsProps> = ({ tips }) => (
   <Layout title="Tips" description="Tips">
     <Grid
       sx={{
-        ...DefaultTheme.mixins.containerStyles(DefaultTheme),
         ml: `0px !important`,
         mt: `30px !important`,
         mb: `30px !important`,
+        width: `100% !important`,
+        paddingLeft: `2%`,
+        paddingRight: `2%`,
       }}
       container
       spacing={3}

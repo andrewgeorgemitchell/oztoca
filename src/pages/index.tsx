@@ -4,7 +4,6 @@ import React from 'react';
 import Layout from '~/components/Layout/Layout';
 import { NextLinkComposed } from '~/components/Link/Link';
 import { SanityClient } from '~/services/SanityClient';
-import { DefaultTheme } from '~/styles/theme';
 import { formatLink } from '~/utils';
 import CatCard from '../components/CatCard/CatCard';
 
@@ -51,9 +50,11 @@ const Home: (props: HomeProps) => JSX.Element = ({ cats }) => (
       spacing={3}
       direction="column"
       sx={{
-        ...DefaultTheme.mixins.containerStyles(DefaultTheme),
         marginTop: `20px !important`,
         marginBottom: `20px !important`,
+        width: `100% !important`,
+        paddingLeft: `2%`,
+        paddingRight: `2%`,
       }}
     >
       <Grid item xs={12} style={{ alignSelf: `center` }}>

@@ -5,7 +5,7 @@ type JssStyles = Record<string, any>;
 
 export type DefaultThemeOptions = {
   mixins: {
-    containerStyles: (theme: Theme) => JssStyles;
+    containerStyles: (theme: any) => JssStyles;
   };
 };
 
@@ -37,7 +37,7 @@ const quipCustomThemeOptions: DefaultThemeOptions = {
   },
 };
 
-export const DefaultTheme: CustomTheme = createTheme(
+export const DefaultTheme = createTheme(
   {
     palette: {
       primary: blue,

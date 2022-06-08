@@ -47,8 +47,25 @@ const Header: React.FC<HeaderProps> = ({ links }) => {
           sx={{
             height: 100,
             margin: `0px !important`,
-            ...DefaultTheme.mixins.containerStyles(DefaultTheme),
-            width: `100%`,
+            width: `100% !important`,
+            paddingLeft: `2%`,
+            paddingRight: `2%`,
+            [DefaultTheme.breakpoints.up(`sm`)]: {
+              paddingLeft: `5%`,
+              paddingRight: `5%`,
+            },
+            [DefaultTheme.breakpoints.up(`md`)]: {
+              paddingLeft: `10%`,
+              paddingRight: `10%`,
+            },
+            [DefaultTheme.breakpoints.up(`lg`)]: {
+              paddingLeft: `15%`,
+              paddingRight: `15%`,
+            },
+            [DefaultTheme.breakpoints.up(`xl`)]: {
+              paddingLeft: `17%`,
+              paddingRight: `17%`,
+            },
           }}
           container
           direction="row"

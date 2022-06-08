@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import ContactForm from '~/components/ContactForm/ContactForm';
 import Layout from '~/components/Layout/Layout';
-import { DefaultTheme } from '~/styles/theme';
 // eslint-disable-next-line @typescript-eslint/ban-types
 type ContactProps = {};
 
@@ -22,10 +21,9 @@ const Contact: React.FC<ContactProps> = () => {
         justifyContent="center"
         item
         sx={{
-          width: `100%`,
+          width: `100% `,
+          paddingRight: `2%`,
           justifyContent: `center`,
-          padding: 0.5,
-          ...DefaultTheme.mixins.containerStyles(DefaultTheme),
         }}
       >
         <Grid item xs={12}>

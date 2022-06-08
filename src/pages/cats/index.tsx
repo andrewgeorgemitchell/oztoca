@@ -1,8 +1,9 @@
+import { Pets } from '@mui/icons-material';
 import {
+  Box,
   Button,
   CircularProgress,
   Divider,
-  Fade,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -10,53 +11,13 @@ import {
   Radio,
   RadioGroup,
   Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Pets } from '@mui/icons-material';
+} from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import Layout from '~/components/Layout/Layout';
 import { SanityClient } from '~/services/SanityClient';
-import { CustomTheme } from '~/styles/theme';
+import { DefaultTheme } from '~/styles/theme';
 import CatCard from '../../components/CatCard/CatCard';
-
-const useStyles = makeStyles((theme: CustomTheme) => ({
-  root: {
-    display: `grid`,
-    marginTop: 5,
-    marginBottom: 5,
-    gridTemplateColumns: `auto`,
-    gridTemplateRows: `auto`,
-    gridTemplateAreas: `
-      'sidebar'
-      'content'
-      `,
-    paddingLeft: `2%`,
-    paddingRight: `2%`,
-    gap: 40,
-    [theme.breakpoints.up(`md`)]: {
-      paddingLeft: `5%`,
-      paddingRight: `5%`,
-      marginTop: 30,
-      marginBottom: 30,
-      gridTemplateColumns: `300px auto`,
-      gridTemplateRows: `650px auto`,
-      gridTemplateAreas: `
-          'sidebar content'
-          'none content'
-          `,
-    },
-  },
-  sidebar: {
-    '& > *': {
-      flexBasis: `auto`,
-    },
-    gridArea: `sidebar`,
-  },
-  content: {
-    gridArea: `content`,
-  },
-}));
 
 type CatsProps = {
   categories: Array<Record<any, any>>;
@@ -74,7 +35,6 @@ export async function getStaticProps() {
 }
 
 const Cats: React.FC<CatsProps> = ({ categories }) => {
-  const classes = useStyles();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [cats, setCats] = useState<Array<Record<any, any>>>([]);
@@ -126,15 +86,47 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
         }),
     [cats, selectedCategory, selectedGender],
   );
-
+  console.log(selectedCategory);
   return (
     <Layout
       title="View our Bobtail Cats"
       description="Full list of Bobtail cats & kittens from Oztoca"
     >
-      <div className={classes.root}>
+      <Box
+        sx={{
+          display: `grid`,
+          marginTop: 5,
+          marginBottom: 5,
+          gridTemplateColumns: `auto`,
+          gridTemplateRows: `auto`,
+          gridTemplateAreas: `
+      'sidebar'
+      'content'
+      `,
+          paddingLeft: `2%`,
+          paddingRight: `2%`,
+          gap: 5,
+          [DefaultTheme.breakpoints.up(`md`)]: {
+            paddingLeft: `5%`,
+            paddingRight: `5%`,
+            marginTop: 4,
+            marginBottom: 4,
+            gridTemplateColumns: `300px auto`,
+            gridTemplateRows: `650px auto`,
+            gridTemplateAreas: `
+          'sidebar content'
+          'none content'
+          `,
+          },
+        }}
+      >
         <Grid
-          className={classes.sidebar}
+          sx={{
+            '& > *': {
+              flexBasis: `auto`,
+            },
+            gridArea: `sidebar`,
+          }}
           container
           spacing={3}
           direction="column"
@@ -149,7 +141,9 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
           </Grid>
           <Grid item xs={12}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Category</FormLabel>
+              <FormLabel component="legend" color="info">
+                Category
+              </FormLabel>
               <RadioGroup
                 aria-label="Category"
                 name="category-radio-filter-group"
@@ -210,11 +204,13 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
           </Grid>
         </Grid>
         <Grid
-          className={classes.content}
+          sx={{
+            gridArea: `content`,
+            gap: 2,
+          }}
           container
           justifyContent="center"
           alignItems="flex-start"
-          style={{ gap: 10 }}
         >
           {loading ? (
             <>
@@ -226,13 +222,12 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
             <>
               {filteredCats.length > 0 ? (
                 filteredCats.map((cat: any) => (
-                  <Fade key={cat._id} in timeout={500}>
-                    <CatCard
-                      name={cat.title}
-                      imageUrl={cat.images[0].asset.url}
-                      slug={cat.slug.current}
-                    />
-                  </Fade>
+                  <CatCard
+                    key={cat._id}
+                    name={cat.title}
+                    imageUrl={cat.images[0].asset.url}
+                    slug={cat.slug.current}
+                  />
                 ))
               ) : (
                 <Grid
@@ -244,7 +239,7 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
                   alignItems="center"
                   justifyContent="center"
                 >
-                  <Pets style={{ height: 50, width: 50 }} />
+                  <Pets sx={{ height: `50px`, width: `50px` }} />
                   <Typography variant="h5" align="center">
                     No Bobtails found matching this criteria, please try editing
                     the filter settings
@@ -254,7 +249,7 @@ const Cats: React.FC<CatsProps> = ({ categories }) => {
             </>
           )}
         </Grid>
-      </div>
+      </Box>
     </Layout>
   );
 };

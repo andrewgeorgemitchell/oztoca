@@ -40,7 +40,9 @@ const Gallery: React.FC<GalleryProps> = ({ gallery }) => {
     <Layout title="Gallery" description="Gallery">
       <Grid
         sx={{
-          ...DefaultTheme.mixins.containerStyles(DefaultTheme),
+          width: `100% !important`,
+          paddingLeft: `2%`,
+          paddingRight: `2%`,
           marginTop: `30px !important`,
         }}
         container
