@@ -1,5 +1,5 @@
-import { createTheme, Theme } from '@material-ui/core';
 import { blue, pink } from '@material-ui/core/colors';
+import { createTheme, Theme } from '@mui/material/styles';
 
 type JssStyles = Record<string, any>;
 
@@ -41,29 +41,42 @@ export const DefaultTheme = createTheme(
   {
     palette: {
       primary: blue,
-      secondary: pink,
+      secondary: {
+        main: pink.A400,
+      },
     },
-    overrides: {
+    components: {
       MuiButton: {
-        root: {
-          textTransform: `none`,
+        styleOverrides: {
+          root: {
+            textTransform: `none`,
+          },
+        },
+      },
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            color: `secondary`,
+          },
         },
       },
       MuiTypography: {
-        h1: {
-          fontWeight: 600,
-        },
-        h2: {
-          fontWeight: 600,
-        },
-        h3: {
-          fontWeight: 600,
-        },
-        body1: {
-          fontSize: 22,
-        },
-        body2: {
-          fontSize: 18,
+        styleOverrides: {
+          h1: {
+            fontWeight: 600,
+          },
+          h2: {
+            fontWeight: 600,
+          },
+          h3: {
+            fontWeight: 600,
+          },
+          body1: {
+            fontSize: 22,
+          },
+          body2: {
+            fontSize: 18,
+          },
         },
       },
     },

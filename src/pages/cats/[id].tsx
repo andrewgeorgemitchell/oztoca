@@ -195,9 +195,9 @@ const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {
               marginBottom: 2,
             }}
           >
-            <Chip color="error" label={`Category: ${cat.category.name}`} />
-            <Chip color="error" label={`Age: ${cat.age}`} />
-            <Chip color="error" label={`Sex: ${cat.sex}`} />
+            <Chip color="secondary" label={`Category: ${cat.category.name}`} />
+            <Chip color="secondary" label={`Age: ${cat.age}`} />
+            <Chip color="secondary" label={`Sex: ${cat.sex}`} />
           </Box>
           <Divider />
           <PortableText value={cat.description} />

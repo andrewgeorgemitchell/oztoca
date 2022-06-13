@@ -53,8 +53,8 @@ const Home: (props: HomeProps) => JSX.Element = ({ cats }) => (
         marginTop: `20px !important`,
         marginBottom: `20px !important`,
         width: `100% !important`,
-        paddingLeft: `2%`,
-        paddingRight: `2%`,
+        paddingLeft: `17%`,
+        paddingRight: `17%`,
       }}
     >
       <Grid item xs={12} style={{ alignSelf: `center` }}>
