@@ -1,8 +1,7 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import { Grid } from '@material-ui/core';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Alert, Snackbar, TextField } from '@mui/material';
+import { Alert, Grid, Snackbar, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
 
