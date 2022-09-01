@@ -135,7 +135,13 @@ export async function getStaticProps({ params }: any) {
     .filter((relatedCat: any) => relatedCat.category.name === cat.category.name)
     .filter((relatedCat: any) => relatedCat._id !== cat._id);
 
-  return { props: { cat, relatedCats }, revalidate: 10 };
+  return {
+    props: {
+      cat,
+      relatedCats,
+    },
+    revalidate: 60 * 5, // 5 minutes
+  };
 }
 
 const CatPage: React.FC<CatPageProps> = ({ cat, relatedCats }) => {

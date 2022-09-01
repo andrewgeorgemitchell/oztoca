@@ -50,7 +50,7 @@ export async function getStaticProps() {
     props: {
       tips,
     },
-    revalidate: 10,
+    revalidate: 60 * 5, // 5 minutes
   };
 }
 
