@@ -35,6 +35,7 @@ const ContactForm = ({ src }: { src: string }) => {
         setFormValues(defaultValues);
         setStatus(`success`);
         setOpen(true);
+        captchaRef.current.resetCaptcha();
       })
       .catch(() => {
         setStatus(`error`);
@@ -50,7 +51,6 @@ const ContactForm = ({ src }: { src: string }) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    captchaRef.current.resetCaptcha();
     sendEmail();
   };
 

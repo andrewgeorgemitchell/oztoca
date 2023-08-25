@@ -1,7 +1,6 @@
 import { Button, Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from 'next/image';
-import React from 'react';
 import Layout from '~/components/Layout/Layout';
 import { NextLinkComposed } from '~/components/Link/Link';
 import { SanityClient } from '~/services/SanityClient';
